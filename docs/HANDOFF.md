@@ -60,6 +60,35 @@ Known warning: Vite/Rolldown still warns about MDX’s `use astro:head-inject` d
 - Viewport override was reset at this pause. Reduced-motion emulation was reset and DevTools closed. Theme controls were left on System.
 - The storage/no-JS checks used a temporary static harness serving actual production pages in sandboxed iframes. It has been deleted and the clean production output rebuilt. See validation for the exact coverage; no need to recreate it unless a theme fix warrants retesting.
 
+## Essential best practices & deployment considerations
+
+Beyond the current acceptance checklist, the following lightweight, zero-overhead best practices should be considered before final launch:
+
+1. **Mobile browser chrome integration (`theme-color`)**:
+   - Add dual `<meta name="theme-color">` tags in `BaseLayout.astro` targeting light (`#f7f5ef`) and dark (`#20231f`) with `media="(prefers-color-scheme: ...)"`. This ensures the mobile browser address and status bars match the page background seamlessly with zero runtime JavaScript.
+
+2. **Favicon fallback and touch icons**:
+   - Modern browsers parse `favicon.svg`, but desktop bookmark bars, legacy user agents, homescreen shortcuts, and RSS aggregators request `/favicon.ico` and `/apple-touch-icon.png` at root by convention. Supplying static fallbacks in `public/` avoids noisy 404 logs.
+
+3. **Social card completeness**:
+   - Add `<meta name="twitter:card" content="summary" />` in `BaseLayout.astro`. Twitter/X, Discord, Slack, and LinkedIn bots often require this property to reliably unfurl summary cards alongside Open Graph tags.
+   - Prepare a simple, branded 1200×630 fallback image for `og:image` when visual brand assets are finalized.
+
+4. **Production hosting headers (`public/_headers`)**:
+   - For Cloudflare Pages, configure static caching and basic HTTP security headers via a static `public/_headers` file:
+     - Long-term immutable caching for hashed assets (`/_astro/*`: `Cache-Control: public, max-age=31536000, immutable`).
+     - Immediate revalidation for HTML pages (`/*`: `Cache-Control: public, max-age=0, must-revalidate`).
+     - Standard baseline security: `X-Content-Type-Options: nosniff`, `X-Frame-Options: SAMEORIGIN`, and `Referrer-Policy: strict-origin-when-cross-origin`.
+
+5. **Domain canonicalization**:
+   - In Cloudflare DNS/Page Rules, establish a permanent 301 redirect from `www.xiaonan.co` to the apex `https://xiaonan.co` to prevent split indexing and preserve canonical authority.
+
+6. **Print stylesheet**:
+   - Add a minimal `@media print` block in `global.css` (hiding `.skip-link`, navigation, `.theme-control`, and `.site-footer`, while ensuring high-contrast monochrome text) to ensure clean "Print to PDF" exports for portfolios and articles.
+
+7. **CI test validation**:
+   - Cloudflare Pages runs `npm run build` on deployment (which runs `astro check`), but omits `npm test`. A minimal GitHub Actions workflow or pre-push hook running `npm test && npm run build` guarantees that publication filters and date logic are continuously verified.
+
 ## Useful files
 
 - `src/data/site.ts`, `src/data/work.ts`, `src/data/projects.ts`
