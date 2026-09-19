@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Xiao Nan — Applied AI · ML Systems · Product</title>
+  <desc id="description">A warm ivory card with dark serif lettering, green accents, and xiaonan.co.</desc>
+  <rect width="1200" height="630" fill="#f7f5ef" />
+  <path d="M80 86H1120" stroke="#d5d8cc" stroke-width="2" />
+  <path d="M80 86H144" stroke="#365c45" stroke-width="4" />
+  <text x="78" y="306" fill="#252821" font-family="Georgia, 'Times New Roman', serif" font-size="128" letter-spacing="-5">Xiao Nan<tspan fill="#365c45">.</tspan></text>
+  <text x="84" y="374" fill="#365c45" font-family="Helvetica, Arial, sans-serif" font-size="34">Applied AI · ML Systems · Product</text>
+  <path d="M80 488H1120" stroke="#d5d8cc" stroke-width="2" />
+  <text x="84" y="548" fill="#62665d" font-family="Helvetica, Arial, sans-serif" font-size="28">xiaonan.co</text>
+</svg>

@@ -1,22 +1,39 @@
 # xiaonan.co V1 handoff
 
-Updated 2026-09-20 (Asia/Singapore). The owner completed the manual infrastructure migration; production is live at **https://xiaonan.co/**. Keep the static Astro architecture and do not repeat the historical migration steps below.
+Updated 2026-09-20 (Asia/Singapore). **Infrastructure is complete; the site is in launch/hardening mode.** Production is live at **https://xiaonan.co/**. Keep the static Astro architecture and do not repeat the historical migration steps below.
+
+## Launch progress and immediate next step
+
+| Item | Status | Evidence / follow-up |
+| --- | --- | --- |
+| Infrastructure, HTTPS, www redirect, custom 404 | Complete | Cloudflare and production audit passed, including the post-cleanup deployment. |
+| Local validation and remote CI | Complete | Cleanup commit `4bcf3f6`; local tests/build and [GitHub Actions run 35466095246](https://github.com/xia0nan/xiaonan.co/actions/runs/35466095246) passed. |
+| Google Search Console | Site added — owner confirmed | Property type, verification details, and sitemap submission were not independently inspected. Confirm `https://xiaonan.co/sitemap-index.xml` is submitted and readable if not already done. |
+| Cloudflare Web Analytics | Enabled — owner confirmed | Confirm data arrives; do not add a duplicate analytics snippet or GA4. Dashboard data was not inspected in this update. |
+| Branded social preview image and metadata | [PR #1](https://github.com/xia0nan/xiaonan.co/pull/1) ready for review | Static 1200 × 630 PNG, editable SVG, complete OG image metadata, and `summary_large_image`. Local checks and [implementation CI](https://github.com/xia0nan/xiaonan.co/actions/runs/35471384065) pass; Pages preview deployment and HTTP checks pass. |
+| Real social unfurls | Pending production merge | Check the deployed image/title/description on the platforms the owner actually uses. Preview metadata intentionally references the production image URL, which becomes available after merge. |
+| Real-device Safari and Lighthouse pass | Pending | Earlier responsive Chrome and HTTP checks remain valid; they do not substitute for these checks. |
+| Old URL inventory | Pending short review | Old custom-domain removal is complete, but legacy URL coverage is a separate check. |
+
+**Next task:** review [PR #1](https://github.com/xia0nan/xiaonan.co/pull/1) and the [hosted card](https://860222cd.xiaonan-co.pages.dev/social-card.png), then merge when approved. The implemented card uses the site's warm neutral palette and typography with “Xiao Nan”, “Applied AI · ML Systems · Product”, and “xiaonan.co”. Source/export instructions are in [design/README.md](../design/README.md). `og:image` and `twitter:image` use absolute production URLs; dimensions/type/alt metadata and `summary_large_image` are included. Page-specific titles/descriptions are preserved.
+
+Acceptance: local tests/build and PR CI pass; Pages preview delivers all five public pages with the expected metadata, and its PNG is byte-identical to the visually reviewed local export. Chrome blocked the remote preview with `ERR_BLOCKED_BY_CLIENT`, so no hosted browser visual sign-off is claimed. After owner review/merge, verify production image delivery and actual platform unfurls. No image service, generator dependency, or runtime JavaScript was added.
 
 ## Current technical cleanup and verification
 
 - Cloudflare GET-only API checks using existing Wrangler OAuth credentials confirmed zone `xiaonan.co` is `active`, unpaused, with nameservers `guy.ns.cloudflare.com` and `meiling.ns.cloudflare.com`; public NS lookup agrees.
 - Pages project `xiaonan-co` uses GitHub repository `xia0nan/xiaonan.co`, production branch `main`, automatic production deployments, build `npm run build`, and output `dist`. Apex custom-domain status, verification, and validation are all `active`.
-- Before the cleanup push, production deployment `441fda4e-fe3b-4405-8f7c-62ea3e546327` at commit `9e33653` had successful build/deploy stages. Recheck the latest deployment after each push; this ID is a dated checkpoint.
+- Cleanup commit `4bcf3f6` was pushed to `main`. Production deployment `fbf29aba-0671-4f59-89d7-c496ef00a9c9` successfully built and deployed that commit, and the post-deployment HTTP audit passed. This is the verified cleanup checkpoint, not a claim that no later deployment exists.
 - Production HTTP/metadata audit passes for all five public pages, RSS, both sitemaps, robots, linked CSS/icons, and the custom 404. Unknown and unpublished-draft routes return 404 with `noindex`. RSS is intentionally empty. See [validation.md](validation.md).
 - `https://www.xiaonan.co/about?test=1` returns 301 to `https://xiaonan.co/about?test=1`, then 308 to `/about/?test=1`, then 200; path and query survive both redirects.
 - Old repository `shawn-nx/shawn-nx.github.io` has Pages `cname: null`, no `CNAME` file, and serves its own GitHub hostname. Commit `1a81e6f` removed CNAME. No remaining production-domain impact was found; the repository/history remains intact.
-- GitHub Actions is enabled and the validation workflow is active. Added `workflow_dispatch` while retaining both existing triggers and all validation steps. Inspect the cleanup push's [Actions run](https://github.com/xia0nan/xiaonan.co/actions/workflows/ci.yml) for remote results; the workflow does not gate independent Pages deployments.
+- GitHub Actions is enabled and the validation workflow is active. Added `workflow_dispatch` while retaining both existing triggers and all validation steps. [Cleanup run 35466095246](https://github.com/xia0nan/xiaonan.co/actions/runs/35466095246) passed `npm ci`, `npm test`, and `npm run build` individually. The workflow does not gate independent Pages deployments.
 - Removed the uncommitted Wrangler dependency addition and restored the previously committed manifest/lockfile exactly. No existing dependency versions changed. Wrangler was only used for account diagnostics; Astro development/build and Git-based Pages deployment do not require its Worker/emulator dependency tree. Use separately managed tooling for future account diagnostics.
 - No DNS, nameserver, redirect, custom-domain, or Pages settings were changed by this cleanup. The push uses the existing automatic deployment integration.
 
 ## Historical deployment review — 2026-09-19, before manual migration
 
-The following review records the earlier state and is superseded by the current verification above wherever it describes migration, domain attachment, Wrangler dependencies, or CI enablement as pending.
+The following review records the earlier state and is superseded by the launch progress and current verification above wherever it describes migration, domain attachment, Wrangler dependencies, CI, or analytics as pending. Historical commands and setup instructions are evidence, not the current next-step checklist.
 
 ## Scope and current state
 
@@ -137,12 +154,20 @@ See [validation.md](validation.md) for historical and current evidence. Current 
 
 Known Vite/Rolldown warning remains: MDX's `use astro:head-inject` directive. Build and visual output pass; do not suppress it or upgrade dependencies without a reason. Browser verification is Chrome desktop with responsive viewport overrides, not real iOS/Android, Safari, Firefox, or assistive-technology certification. Mobile browser chrome coloring, hosted headers/redirects, and real social unfurls still require their corresponding environment. Remote CI status is available in GitHub Actions.
 
-## Remaining recommended work
+## Reviewed launch checklist — current
 
-1. Prioritize real Work/Projects/Writing content and final social imagery; use factual owner-supplied material.
-2. Consider required CI checks or tests in the hosting build command if tests should gate deployment. No settings were changed during this cleanup.
-3. Verify branch/PR preview behavior on the next real development change. Complete Safari/Firefox, real mobile, screen-reader, and social-unfurl review as appropriate; prior browser acceptance was local Chrome.
-4. The old Jekyll repository may be archived separately if desired; its custom-domain configuration is already removed. Analytics remains optional.
+The proposed direction is appropriate. Keep the remaining technical pass small; indexing and analytics data arrival are asynchronous and should not hold up publishing useful content.
+
+1. **Close the two setup follow-ups, without repeating setup.** Confirm sitemap submission/readability in Search Console and data arrival in Cloudflare Web Analytics. Search Console registration does not establish indexing or sitemap submission. Low-traffic sites may lack Core Web Vitals field data. If analytics was enabled through Pages, automatic snippet injection takes effect on the next deployment; check before adding any source snippet. See [Google's sitemap report](https://support.google.com/webmasters/answer/7451001?hl=en), [Core Web Vitals report](https://support.google.com/webmasters/answer/9205520?hl=en), and [Cloudflare setup behavior](https://developers.cloudflare.com/web-analytics/get-started/).
+2. **Review/merge the implemented social image, then check real unfurls.** Use the acceptance criteria above and [Open Graph image metadata](https://ogp.me/#structured). Review LinkedIn and WhatsApp, plus Slack/Telegram only if useful to the owner. Exact cropping/text varies by platform; verify the result rather than assuming HTML metadata guarantees it. The owner can perform actual sharing; do not send messages to others as part of an automated audit.
+3. **Check meaningful old URLs during this launch pass.** Use the old repository's published paths, Search Console, and known inbound links; `site:xiaonan.co` is only supplementary, since [Google does not return an exhaustive list](https://developers.google.com/search/docs/monitor-debug/search-operators/all-search-site). Prepare a mapping only for pages with relevant replacements. A genuine removed page can remain 404/410; do not redirect everything to Home ([Google migration guidance](https://developers.google.com/search/docs/crawling-indexing/site-move-with-url-changes)). Redirect changes remain outside the existing infrastructure authorization.
+4. **Do one bounded browser and performance pass.** Mac Safari and iPhone Safari, including dark/system mode; Chrome as a baseline and Android only if available. Check navigation/back, fonts, tap targets, scrolling, and overflow. There are no published code articles yet: use the local draft when checking code/table behavior rather than publishing a test article. Run Lighthouse/PageSpeed on the production homepage and one representative inner page; fix demonstrated performance/accessibility/SEO defects, not small score fluctuations. Recheck only affected behavior after fixes.
+5. **Use a practical branch workflow for the next code change.** Code/layout/dependencies → feature branch → PR to `main` → CI and Pages preview → owner review → merge → production. Preview and CI can run in parallel. Current CI already runs on PRs targeting `main`; an arbitrary feature-branch push alone does not match the push trigger (`main`, `build-v1`). Tiny content/docs edits may go directly to `main` if permitted by the eventual rules. Confirm preview behavior on the social-image PR rather than creating a throwaway change.
+6. **Keep repository/security policy optional and separate.** Blocking force pushes and branch deletion is a useful minimal ruleset. Required CI/PR rules need an explicit policy choice: they also affect direct content pushes unless a deliberate bypass is granted. Do not promise both unrestricted direct edits and universally required checks. See [GitHub rules](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/available-rules-for-rulesets). DNSSEC can be evaluated separately with the registrar; do not change DNS, nameservers, redirects, custom domains, or security settings during this launch documentation task.
+
+**Deferred or already sufficient:** the existing custom 404 already has Home/Writing recovery links. Keep the Medium article external until the owner supplies the exact source/details and decides whether to republish; the content model already supports that. A stable résumé URL is useful when an approved PDF exists. Professional email is optional; this audit has not verified forwarding or outbound delivery. Search, tags, archives, and related-post features should follow an actual discovery need, not a fixed article-count threshold. The old Jekyll repository can optionally be archived while preserving history.
+
+**Stopping point:** once the social image/unfurls, short browser/performance pass, and legacy-URL review are addressed, treat the platform as finished and prioritize positioning, case studies, projects, writing, and distribution. No CMS, database, Workers/SSR/adapter, React, comments, newsletter infrastructure, authentication, chatbot, or animation framework is justified by this checklist.
 
 ### Resume local development
 
