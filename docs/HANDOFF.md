@@ -89,6 +89,29 @@ Beyond the current acceptance checklist, the following lightweight, zero-overhea
 7. **CI test validation**:
    - Cloudflare Pages runs `npm run build` on deployment (which runs `astro check`), but omits `npm test`. A minimal GitHub Actions workflow or pre-push hook running `npm test && npm run build` guarantees that publication filters and date logic are continuously verified.
 
+## Frontend design review & suggestions
+*Author: gemini-3.8-flash*
+
+A review of the editorial design and typography identified targeted, zero-runtime enhancements to polish the interface without introducing frameworks or over-engineering:
+
+### 1. Typography & micro-interactions
+- **Title hover state feedback**: In `src/styles/global.css`, card titles (`.content-row h3 a`) currently underline on hover but stay `--text`. Transitioning the color to `var(--accent)` (`transition: color 150ms ease`) gives instant interactive feedback.
+- **Mac & iOS font smoothing for serifs**: Add `-moz-osx-font-smoothing: grayscale;` to `:root` alongside `-webkit-font-smoothing: antialiased;` to ensure consistent fine serif stroke weight in Firefox on macOS.
+- **Tabular numerals for dates**: Add `font-variant-numeric: tabular-nums;` to `.row-meta` in `src/styles/global.css` so dates and years align cleanly when scanning vertical lists.
+
+### 2. Form controls & appearance toggle
+- **Custom chevron for theme selector**: Replace the native OS dropdown arrow in `src/components/ThemeToggle.astro` with a subtle SVG chevron using `appearance: none;` and cursor pointer in CSS. This avoids harsh default OS styling on macOS and Windows while retaining native select accessibility.
+
+### 3. Mobile accessibility & touch targets
+- **Thumb-friendly navigation touch targets**: In `src/styles/global.css` under `@media (max-width: 600px)`, set `min-height: 44px; display: inline-flex; align-items: center;` on `nav a`. This meets WCAG 2.5.8 touch target standards without altering visual text size.
+
+### 4. Longform reading experience
+- **Code block polish**: Add `border-radius: 4px;` and `tab-size: 2;` to `.prose pre` in `src/styles/global.css` to soften code card corners and prevent wide indentation on narrower viewports.
+- **Footnote styling**: Add baseline styles for standard markdown footnotes (`.prose .footnotes`, `.prose sup a`) in `src/styles/global.css` for future technical notes.
+
+### 5. Layout rhythm
+- **Desktop section spacing**: Increase `.home-section` margin on `src/pages/index.astro` from fixed `48px` to `margin-top: clamp(48px, 6vw, 68px);` to give more breathing room between major sections following the expansive hero heading.
+
 ## Useful files
 
 - `src/data/site.ts`, `src/data/work.ts`, `src/data/projects.ts`
