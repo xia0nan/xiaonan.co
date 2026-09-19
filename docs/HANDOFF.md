@@ -61,6 +61,7 @@ Known warning: Vite/Rolldown still warns about MDX’s `use astro:head-inject` d
 - The storage/no-JS checks used a temporary static harness serving actual production pages in sandboxed iframes. It has been deleted and the clean production output rebuilt. See validation for the exact coverage; no need to recreate it unless a theme fix warrants retesting.
 
 ## Essential best practices & deployment considerations
+*Author: gemini-3.8-flash*
 
 Beyond the current acceptance checklist, the following lightweight, zero-overhead best practices should be considered before final launch:
 
