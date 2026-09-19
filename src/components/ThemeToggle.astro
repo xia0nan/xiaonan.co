@@ -14,6 +14,11 @@
     select.addEventListener('change', () => {
       const value = select.value;
       document.documentElement.dataset.theme = value;
+      // Media queries keep System live; explicit choices override both colors.
+      document.querySelectorAll<HTMLMetaElement>('meta[name="theme-color"]').forEach((meta) => {
+        const dark = value === 'dark' || (value === 'system' && meta.media.includes('dark'));
+        meta.content = dark ? '#20231f' : '#f7f5ef';
+      });
       try {
         if (value === 'system') localStorage.removeItem('theme');
         else localStorage.setItem('theme', value);

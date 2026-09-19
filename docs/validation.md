@@ -1,6 +1,6 @@
 # V1 validation record
 
-Status: implementation complete; most browser acceptance checks passed on 2026-09-19. Paused at the user’s request with the remaining checks below. No application code changes were needed in this session.
+Status: local V1 implementation and the remaining Chrome acceptance checks completed on 2026-09-19. The continuation added targeted polish and fixed keyboard focus for article tables. Historical evidence below is retained; the latest results supersede earlier pending items.
 
 ## Completed
 
@@ -25,7 +25,7 @@ The installed Astro 7.3.3 / MDX 8.0.1 stack emits a Vite/Rolldown `MODULE_LEVEL_
 - Production Home, Work, Writing, Projects, and About: navigated through links at 360, 768, and 1440 CSS pixels. Every page’s document scroll width equaled the viewport width; navigation active states were correct.
 - Screenshots reviewed for the mobile/desktop homepage, tablet/mobile article header, article body in both themes, and desktop custom 404. This is not a screenshot review of every page/theme/width combination.
 - Development draft: Writing stays active; draft notice, H1/H2/H3, callout, ordered/unordered lists, quote, links, highlighted code, table, and article measure render correctly.
-- At 360px, code client/scroll widths were 318/476px and table widths were 320/420px, both with `overflow-x: auto`; document width remained 360px. Actual horizontal scrolling remains to be verified (see below).
+- At 360px, code client/scroll widths were 318/476px and table widths were 320/420px, both with `overflow-x: auto`; document width remained 360px. Actual horizontal scrolling was subsequently verified (see continuation results below).
 - Development theme control: explicit Dark and Light both applied correctly and survived reload. System restored the light system palette. Production preview initially displayed System.
 - A disposable `public/acceptance-harness.html` loaded the actual production homepage in sandboxed iframes. The opaque-origin frame allowed scripts but denied local storage; both explicit choices worked, and navigating to About returned to System without breaking the page.
 - The second iframe denied scripts entirely: the theme control was hidden, content stayed readable, and clicking About through native browser input navigated successfully.
@@ -33,7 +33,7 @@ The installed Astro 7.3.3 / MDX 8.0.1 stack emits a Vite/Rolldown `MODULE_LEVEL_
 - The sandbox harness was deleted before the final build. No temporary content or test pages remain in the source tree or production output.
 - Keyboard Tab exposed the skip link with a visible 2px accent outline; Enter moved focus to `main`.
 - Chrome DevTools `prefers-reduced-motion: reduce` emulation yielded `transition-duration: 0s` and `animation-name: none`. The emulation was then reset and DevTools closed.
-- A nonexistent production URL rendered the custom 404, with Home/Writing recovery links. HTTP status code still needs an explicit check.
+- A nonexistent production URL rendered the custom 404, with Home/Writing recovery links. HTTP 404 status was subsequently verified (see continuation results below).
 - Production browser warning/error logs were empty during the five-page navigation matrix, before deliberate not-found/sandbox testing.
 - Final metadata audit: all six HTML pages have one H1, descriptions, and production canonicals; Home/About have valid Person JSON-LD with only the agreed GitHub profile; 404 has `noindex, follow`.
 - Final XML files parse; RSS has zero entries; generated HTML contains no draft or harness links.
@@ -50,17 +50,29 @@ Computed using sRGB relative luminance. Each value is foreground contrast agains
 
 This checks the three site palette colors, not every Shiki syntax token or browser-native control state.
 
-## Remaining acceptance checks
+## Continuation results — handoff assessment and polish
 
-1. Verify real horizontal code/table scrolling at 360px. `locator('pre').press('ArrowRight')` timed out twice through the browser bridge, with no measured scroll offset. The page still rendered correctly afterward. Inspect a fresh screenshot and try native horizontal scrolling or keyboard focus; do not count the attempted calls as passes.
-2. Finish keyboard navigation/focus review beyond the skip link (header links, footer links, theme selector, article links, scroll regions). Use fresh screenshots for any remaining visual concerns on Work/Writing/Projects/About, particularly mobile.
-3. Finish a fresh console/network check and confirm HTTP statuses for production pages, assets, and the custom 404. Native DevTools showed two historical development `/favicon.ico` 404s even though pages declare `/favicon.svg`; their origin was not established. The temporary harness had no favicon declaration. Console was cleared before the last draft reload; inspect fresh evidence before changing assets. Expected sandbox script-block messages and deliberate missing-page responses are not application defects.
-4. After any fixes, rerun the relevant checks and build. If no source changes are needed, the successful final build above remains valid; avoid repeating the entire completed matrix.
-5. Update this record, commit logical changes on `build-v1`, leave a clean worktree, and deliver local review URLs plus README and any limitations. No push/deployment actions are authorized.
+- Fixed a demonstrated accessibility issue: the mobile table did not receive keyboard focus (clicking it left focus on main), while Shiki code already had `tabindex="0"`. Added a filtered Sätteri HAST visitor in `astro.config.mjs` that supplies table `tabIndex=0` without replacing table semantics or adding client JavaScript.
+- In Chrome at a 360px viewport, native Right Arrow moved code from scrollLeft 0 to 40. After the fix, Tab moved from code to table; Right Arrow moved the table from 0 to 40. Table focus had a solid 2px accent outline, confirmed in a screenshot. Code/table content stayed within the page width.
+- Chrome used a 15px vertical scrollbar during this session: innerWidth 360, document clientWidth/scrollWidth both 345. This is bounded layout, not horizontal overflow.
+- Reviewed fresh 360px production screenshots of Work, Writing, Projects, and About, plus desktop Work and the mobile article scroll area. Mobile navigation, footer links, and select measured 44px high. About had no horizontal overflow and its lower content/footer were also reviewed in Dark.
+- Keyboard traversal through the wordmark, all header links, About body GitHub, footer GitHub/RSS, and native appearance select showed visible solid focus outlines with no focus trap. Article link → code → table → return link → footer/select traversal was also reviewed.
+- Theme-color metadata: Dark made both tags `#20231f`; reload preserved Dark and both values. Light made both tags `#f7f5ef`. System restored separate light/dark media-specific colors. This verifies DOM hints, not actual mobile address-bar rendering. Prior storage-denied/no-JS tests above remain historical coverage and were not repeated wholesale.
+- Generated ICO (16/32/48px PNG entries) and a 180px touch PNG from the existing SVG monogram using installed Sharp, with no dependency change. Inspected the touch image visually.
+- Opened native Chrome print preview from the Dark article. Inspected both pages: black/gray text on white, site navigation/footer absent, code fully visible, table columns/content intact. Browser-generated date/URL/page headers remain controlled by the print dialog. Canceled without saving or printing.
+- Fresh production-tab warning/error console log was empty during page review. Explicit HTTP checks returned 200 for all five public pages, SVG/ICO/touch icons, RSS, robots, both sitemap XML files, and every built `/_astro` asset. Missing URL and unpublished draft URL both returned 404.
+- Static audit of all six built HTML pages passed: two theme-color meta tags, summary card declaration, touch-icon link, no draft route links. An initial ad hoc metadata assertion also matched the selector text inside scripts; narrowing it to actual `<meta>` tags corrected the audit.
+- Final `npm test`: 6/6 pass. Final `npm run build`: 27 files checked, 0 Astro errors/warnings/hints, 6 pages. The existing Vite MDX directive warning remains. The table plugin uses the installed Sätteri API, not legacy rehype configuration.
+- CI YAML parses and contains locked installation, tests, and checked build on Node 24. No GitHub Actions execution has occurred; the workflow is local until an authorized push.
+- No temporary content or browser harness remains. No hosting configuration, dependency upgrades, push, merge, or deployment was performed.
 
-## Local server/tool state at pause
+## Remaining environment-specific checks
 
-- Development responded at `http://localhost:4321`; production preview responded at `http://127.0.0.1:4322`.
-- Astro `dev status` and `preview status` reported no managed server, even outside the sandbox. `lsof` nevertheless showed node listeners (then PIDs 49512 on IPv6 localhost:4321 and 49963 on 127.0.0.1:4322), and Chrome navigation worked. Do not start duplicates merely because the status command says none; inspect current listeners and browser response first.
-- The existing user Chrome tab was the draft preview. The agent-created production tab may have been automatically closed after interruption; preserving it at pause returned “No tab with id”. Discover current tabs on resume.
-- Temporary viewport overrides were reset when saving this pause. Native device toolbar and reduced-motion emulation had already been disabled; both site origins were left using System.
+- Real iOS/Android chrome coloring and touch behavior, Safari/Firefox, and screen-reader review are not claimed by Chrome responsive testing.
+- CI must run remotely after an authorized push. Configure required checks or include tests in the hosting build command if they must gate deployment.
+- Validate hosted cache/security headers, domain redirects, TLS, real social unfurls, and production 404 behavior at deployment. Astro preview cannot prove Cloudflare behavior.
+- Add and review final social imagery and real portfolio content in the next milestone. Empty sections are deliberate, not pending implementation defects.
+
+## Local server/tool state
+
+Development and production preview remained available at `http://localhost:4321` and `http://127.0.0.1:4322`. Existing listeners were reused. Inspect listeners before starting anything because the earlier Astro status output did not track these processes correctly. Temporary browser viewport overrides were reset, print preview was canceled, and both origins were restored to System. The production homepage was left as the local review tab.

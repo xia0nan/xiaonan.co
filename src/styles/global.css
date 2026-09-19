@@ -70,7 +70,9 @@ nav a[aria-current] { color: var(--text); text-decoration: underline; text-decor
 .content-row { padding-block: 28px; border-bottom: 1px solid var(--line); }
 .content-row p { max-width: 68ch; color: var(--muted); }
 .content-row h3 a { color: var(--text); }
+.content-row h3 a:hover, .content-row h3 a:focus-visible { color: var(--accent); }
 .row-meta { font-size: 0.8rem; display: flex; flex-wrap: wrap; gap: 8px 20px; margin-bottom: 12px; }
+.row-meta { font-variant-numeric: tabular-nums; }
 .row-meta:empty, .row-links:empty { display: none; }
 .row-links { display: flex; gap: 24px; font-size: 0.875rem; margin-top: 16px; }
 .tags { list-style: none; display: flex; flex-wrap: wrap; gap: 8px 18px; padding: 0; margin: 12px 0 0; font-size: 0.8rem; }
@@ -111,6 +113,7 @@ select { background: var(--bg); color: var(--text); border: 1px solid var(--line
 .prose code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; font-size: 0.875em; }
 .prose :not(pre) > code { background: var(--surface); padding: 2px 5px; border-radius: 3px; }
 .prose pre { max-width: 100%; overflow-x: auto; padding: 22px; border: 1px solid var(--line); margin-block: 28px; font-size: 0.9rem; }
+.prose pre { border-radius: 4px; tab-size: 2; }
 .astro-code, .astro-code span { color: var(--shiki-light); background-color: var(--shiki-light-bg); }
 :root[data-theme="dark"] .astro-code, :root[data-theme="dark"] .astro-code span { color: var(--shiki-dark); background-color: var(--shiki-dark-bg); }
 @media (prefers-color-scheme: dark) {
@@ -127,6 +130,8 @@ select { background: var(--bg); color: var(--text); border: 1px solid var(--line
   .shell { width: calc(100% - 40px); }
   .site-header { flex-wrap: wrap; gap: 14px; padding-block: 22px 18px; }
   nav { width: 100%; justify-content: space-between; gap: 16px; }
+  nav a, .footer-links a { min-height: 44px; display: inline-flex; align-items: center; }
+  .theme-control select { min-height: 44px; }
   main { padding-block: 48px 72px; }
   .hero { padding-block: 0 28px; }
   .home-section { margin-top: 32px; }
@@ -135,3 +140,25 @@ select { background: var(--bg); color: var(--text); border: 1px solid var(--line
   .page-intro { margin-bottom: 36px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }
+@media print {
+  :root[data-theme], :root:not([data-theme]) {
+    color-scheme: light;
+    --bg: #fff; --text: #000; --muted: #333;
+    --accent: #000; --line: #aaa; --surface: #fff;
+  }
+  body { display: block; min-height: 0; }
+  .skip-link, .site-header, .site-footer, .article-return { display: none; }
+  .shell { width: 100%; max-width: none; }
+  main { padding-block: 0; }
+  .hero { padding-block: 0 24px; }
+  h1 { font-size: 32pt; }
+  .hero h1 { font-size: 40pt; }
+  .article-header h1 { font-size: 28pt; }
+  h2, h3, h4 { break-after: avoid; }
+  p { orphans: 3; widows: 3; }
+  a { color: #000; text-decoration: underline; }
+  .prose pre { overflow: visible; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .prose table { display: table; width: 100%; table-layout: fixed; overflow: visible; }
+  .prose th, .prose td { min-width: 0; padding: 8px; }
+  .prose .astro-code, .prose .astro-code span { color: #000 !important; background: #fff !important; }
+}

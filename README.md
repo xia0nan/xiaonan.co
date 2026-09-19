@@ -45,6 +45,8 @@ Work and project entries require `id`, `title`, `summary`, `tags`, and `featured
 
 The theme control offers System, Light, and Dark. System follows the operating system through CSS, including changes while the page is open. Explicit preferences are applied before paint and saved in local storage. With blocked storage, the choice still applies for the current page. With JavaScript disabled, the site follows the system theme and hides the inactive control.
 
+Browser theme-color hints follow the same choice where supported. The native appearance selector, navigation, and footer links have 44px-high targets on mobile. Printing uses a light, monochrome layout with navigation and footer hidden and article code/table content kept visible.
+
 ## Writing workflow
 
 Create `.md` or `.mdx` files in `src/content/writing/`. For example, `systems/useful-models.mdx` becomes `/writing/systems/useful-models/`. Keep filenames and folders stable after publication because they define URLs; avoid a frontmatter `slug` override. Use lowercase, hyphenated names.
@@ -83,7 +85,7 @@ import Callout from '../../components/Callout.astro';
 </Callout>
 ```
 
-Adjust relative imports for nested folders. Code blocks use GitHub light/dark Shiki themes. Tables and code blocks scroll within the article. Supply descriptive alt text for images.
+Adjust relative imports for nested folders. Code blocks use GitHub light/dark Shiki themes. Tables and code blocks scroll within the article; Tab focuses them and arrow keys scroll horizontally. The Sätteri plugin in `astro.config.mjs` adds table focusability at build time. Supply descriptive alt text for images.
 
 ### External writing
 
@@ -105,6 +107,8 @@ The Writing index, homepage selections, and summary RSS link directly to the ori
 
 RSS lives at `/rss.xml`, including when there are no published articles. Sitemap output is `/sitemap-index.xml`; `/robots.txt` points to it. The custom `/404.html` is `noindex` and excluded from the sitemap. Home and About include Person JSON-LD using only the configured identity and profiles. Social images are deferred until real assets exist.
 
+The shared layout declares a summary social card. Actual platform unfurls still need a public deployment check. `public/favicon.ico` (16/32/48px) and `public/apple-touch-icon.png` (180px) are static raster exports of the existing `public/favicon.svg` monogram; update all three together if the mark changes.
+
 ## Later deployment: Cloudflare Pages
 
 This V1 is local only. Pushing, merging, configuring Cloudflare, analytics, and changing DNS are separate milestones. Keep `master` as the primary branch; review and merge `build-v1` only when ready to proceed.
@@ -125,6 +129,10 @@ Use the current Pages build image supporting the `.node-version` override. If co
 These settings follow the [Cloudflare Astro deployment guide](https://developers.cloudflare.com/pages/framework-guides/deploy-an-astro-site/) and [Cloudflare build environment configuration](https://developers.cloudflare.com/pages/configuration/build-image/).
 
 **Review the `pages.dev` deployment before beginning DNS migration.** Check all navigation, the real not-found response, themes, metadata, RSS, and sitemap there. Canonicals intentionally continue to point to `https://xiaonan.co`. Attaching the custom domain and migrating its DNS happen only after that review, as a separately planned step.
+
+At that milestone, review response headers/caching and HTTPS redirects from `www` to the apex, preserving paths and queries. No `_headers`, redirects, or hosting configuration have been added. Avoid overlapping broad revalidation and immutable asset rules: Pages combines matching header rules. Local Astro preview does not verify Cloudflare headers or redirects.
+
+`.github/workflows/ci.yml` prepares Node 24 validation for pushes to `master`/`build-v1` and pull requests to `master`, running `npm ci`, `npm test`, and `npm run build`. It has only been validated locally; it will run after an authorized push. To make tests a release gate later, configure required checks or include `npm test` in the Pages build command. A workflow alone does not block an independent deployment.
 
 ## Scope and validation
 

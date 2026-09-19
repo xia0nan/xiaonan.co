@@ -22,10 +22,17 @@ const pageTitle = title === site.name ? `${site.name} / ${site.alternateName} â€
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#f7f5ef" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#20231f" media="(prefers-color-scheme: dark)" />
     <script is:inline>
       try {
         const theme = localStorage.getItem('theme');
-        if (theme === 'light' || theme === 'dark') document.documentElement.dataset.theme = theme;
+        if (theme === 'light' || theme === 'dark') {
+          document.documentElement.dataset.theme = theme;
+          document.querySelectorAll('meta[name="theme-color"]').forEach((meta) => {
+            meta.content = theme === 'dark' ? '#20231f' : '#f7f5ef';
+          });
+        }
       } catch { /* CSS follows the system preference without storage or JavaScript. */ }
     </script>
     <title>{pageTitle}</title>
@@ -37,9 +44,12 @@ const pageTitle = title === site.name ? `${site.name} / ${site.alternateName} â€
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:site_name" content={`${site.name} / ${site.alternateName}`} />
     <meta property="og:type" content={type} />
+    <meta name="twitter:card" content="summary" />
     {publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
     {updatedAt && <meta property="article:modified_time" content={updatedAt.toISOString()} />}
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" sizes="any" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="alternate" type="application/rss+xml" title={`${site.name} â€” Writing`} href={new URL('/rss.xml', site.url).href} />
     {includePerson && <script type="application/ld+json" set:html={JSON.stringify(person).replace(/</g, '\\u003c')} />}
   </head>
