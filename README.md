@@ -109,11 +109,11 @@ RSS lives at `/rss.xml`, including when there are no published articles. Sitemap
 
 The shared layout declares a summary social card. Actual platform unfurls still need a public deployment check. `public/favicon.ico` (16/32/48px) and `public/apple-touch-icon.png` (180px) are static raster exports of the existing `public/favicon.svg` monogram; update all three together if the mark changes.
 
-## Later deployment: Cloudflare Pages
+## Deployment: Cloudflare Pages
 
-The repository uses `main` as its primary and production deployment branch, with `build-v1` retained as the V1 development branch. The initial V1 is published to GitHub. Configuring Cloudflare, analytics, and changing DNS remain separate milestones.
+The repository uses `main` as its primary and production deployment branch, with `build-v1` retained as the V1 development branch. Production is live at [xiaonan.co](https://xiaonan.co/). Cloudflare Pages project `xiaonan-co` is connected to this repository with automatic deployments from `main`; [xiaonan-co.pages.dev](https://xiaonan-co.pages.dev/) remains available. The manual DNS/custom-domain migration is complete; see [the handoff](docs/HANDOFF.md) for verification and remaining work.
 
-When deployment is authorized, connect the GitHub repository to a Cloudflare Pages project with:
+The current Pages project uses these settings:
 
 | Setting | Value |
 | --- | --- |
@@ -128,11 +128,13 @@ Use the current Pages build image supporting the `.node-version` override. If co
 
 These settings follow the [Cloudflare Astro deployment guide](https://developers.cloudflare.com/pages/framework-guides/deploy-an-astro-site/) and [Cloudflare build environment configuration](https://developers.cloudflare.com/pages/configuration/build-image/).
 
-**Review the `pages.dev` deployment before beginning DNS migration.** Check all navigation, the real not-found response, themes, metadata, RSS, and sitemap there. Canonicals intentionally continue to point to `https://xiaonan.co`. Attaching the custom domain and migrating its DNS happen only after that review, as a separately planned step.
+Cloudflare is authoritative for `xiaonan.co`, and the apex Pages custom domain is active. HTTPS `www` redirects preserve the path and query string; Pages then normalizes trailing slashes. DNS, redirects, and custom domains are managed separately from this repository.
 
-At that milestone, review response headers/caching and HTTPS redirects from `www` to the apex, preserving paths and queries. No `_headers`, redirects, or hosting configuration have been added. Avoid overlapping broad revalidation and immutable asset rules: Pages combines matching header rules. Local Astro preview does not verify Cloudflare headers or redirects.
+Continue checking hosted headers and redirects after relevant deployment changes. No repository `_headers` or redirects have been added; the Pages project is configured in Cloudflare’s dashboard. Avoid overlapping broad revalidation and immutable asset rules: Pages combines matching header rules. Local Astro preview does not verify Cloudflare headers or redirects.
 
-`.github/workflows/ci.yml` prepares Node 24 validation for pushes to `main`/`build-v1` and pull requests to `main`, running `npm ci`, `npm test`, and `npm run build`. GitHub runs this workflow when matching branches are pushed or pull requests are opened; inspect the latest Actions result before deployment. To make tests a release gate later, configure required checks or include `npm test` in the Pages build command. A workflow alone does not block an independent deployment.
+Wrangler is not a project dependency: development, tests, and builds use Astro, and Pages deploys through Git integration. Read-only account diagnostics can use separately managed Wrangler tooling; this site does not need its Worker/emulator dependencies.
+
+`.github/workflows/ci.yml` runs Node 24 validation for manual dispatch, pushes to `main`/`build-v1`, and pull requests to `main`, running `npm ci`, `npm test`, and `npm run build`. GitHub runs this workflow when matching branches are pushed or pull requests are opened; inspect the latest Actions result before deployment. To make tests a release gate later, configure required checks or include `npm test` in the Pages build command. A workflow alone does not block an independent deployment.
 
 ## Scope and validation
 

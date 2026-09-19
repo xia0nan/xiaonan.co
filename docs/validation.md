@@ -76,3 +76,30 @@ This checks the three site palette colors, not every Shiki syntax token or brows
 ## Local server/tool state
 
 Development and production preview remained available at `http://localhost:4321` and `http://127.0.0.1:4322`. Existing listeners were reused. Inspect listeners before starting anything because the earlier Astro status output did not track these processes correctly. Temporary browser viewport overrides were reset, print preview was canceled, and both origins were restored to System. The production homepage was left as the local review tab.
+
+## First Cloudflare deployment review — 2026-09-19
+
+The owner deployed `9e33653` from `main` to Pages project `xiaonan-co`. Wrangler and the dashboard confirmed Git integration, automatic production deployments, build command `npm run build`, output `dist`, and no custom domains. The production URL is https://xiaonan-co.pages.dev/; the immutable deployment URL is https://441fda4e.xiaonan-co.pages.dev/.
+
+Hosted curl checks returned 200 for all five public pages, icons, robots, RSS and both sitemaps; unknown and draft routes returned 404. RSS parsed with zero items, homepage canonical remained `https://xiaonan.co/`, and the custom 404 contained noindex. Python urllib returned client-specific 403s while curl succeeded; hosted visual acceptance remains pending rather than inferred from HTTP checks.
+
+Public DNS still uses Namecheap nameservers and old GitHub Pages destinations. No DNS/custom-domain changes were made. GitHub Actions still lists zero runs, so remote CI is not recorded as passing. The earlier local-only/push-pending entries above describe historical checkpoints; [HANDOFF.md](HANDOFF.md) contains the current migration state and remaining tasks.
+
+
+## Post-migration technical verification — 2026-09-20 (Asia/Singapore)
+
+This checkpoint supersedes earlier pending DNS/custom-domain and CI-enablement notes. Infrastructure was inspected read-only; no DNS, nameserver, redirect, custom-domain, or Pages settings were modified.
+
+- Cloudflare API (using existing Wrangler OAuth authentication): zone active and unpaused; `guy.ns.cloudflare.com` / `meiling.ns.cloudflare.com`, matching public NS lookup. Pages project `xiaonan-co`: Git integration enabled, production branch `main`, build `npm run build`, output `dist`, automatic production deployments enabled. Custom domain `xiaonan.co`: status, verification, and validation all active.
+- Pre-push production deployment `441fda4e-fe3b-4405-8f7c-62ea3e546327` (`9e33653`) had successful build/deploy stages. The cleanup push is expected to create a new deployment through the existing integration; verify its outcome separately from GitHub CI.
+- HTTPS GET audit: `/`, `/about/`, `/work/`, `/writing/`, `/projects/`, `/rss.xml`, `/sitemap-index.xml`, `/sitemap-0.xml`, and `/robots.txt` all returned 200. All five HTML pages have one H1, a description, and the correct production canonical. Linked CSS and SVG/ICO/touch icons returned 200.
+- RSS and both sitemaps parse as XML. RSS contains zero entries as intended. Sitemap lists exactly the five public pages, excludes drafts/404, and robots allows crawling with the correct sitemap URL.
+- Unknown `/__verification_missing_page__/` and unpublished `/writing/draft-demonstration/` return HTTP 404, the custom recovery content, and `noindex, follow`. Direct `/404.html` is normalized by Pages with 308; the actual missing-route responses above verify 404 behavior.
+- `https://www.xiaonan.co/about?test=1` → 301 `https://xiaonan.co/about?test=1` → 308 `https://xiaonan.co/about/?test=1` → 200. Both redirects preserve the query and path, with trailing-slash normalization at the apex.
+- Observed HTML headers: `Cache-Control: public, max-age=0, must-revalidate`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`; 404 responses use `Cache-Control: no-store`. HTTPS certificate validation succeeded through curl. This is a technical HTTP/metadata audit, not a new cross-browser visual sign-off.
+- Old GitHub Pages repository `shawn-nx/shawn-nx.github.io`: `status: built`, `cname: null`, `html_url: https://shawn-nx.github.io/`, no CNAME file in the `master` tree, and Jekyll `url` unset. Commit `1a81e6f` deleted CNAME. No remaining effect on the production domain was found; no old hosting settings were changed.
+- GitHub API confirms Actions enabled and `Validate site` active. Added `workflow_dispatch`, retaining push (`main`, `build-v1`) and pull-request (`main`) triggers, read-only contents permissions, and the existing install/test/build steps. Remote results must be checked on the cleanup commit in [Actions](https://github.com/xia0nan/xiaonan.co/actions/workflows/ci.yml); they cannot be inferred from local tests.
+- Removed the uncommitted Wrangler addition: restored package manifest and lockfile exactly to their committed versions, with no dependency upgrades. The only pre-existing lockfile changes were Wrangler's dependency tree and optional/devOptional flags for Sharp and `@img/colour`. Astro and Git-integrated Pages do not need Wrangler. Future account diagnostics can use separately managed tooling.
+- Fresh `npm ci` passed (303 packages); npm reported an unapproved optional macOS `fsevents` install script. `npm test` passed 6/6. `npm run build` passed: 27 files checked, 0 Astro errors/warnings/hints, 6 static pages. The previously documented Vite MDX directive warning remains non-blocking and was not suppressed.
+
+Remaining recommendations: decide separately whether CI must gate deployment; check branch previews on the next actual development change; review real mobile/Safari/Firefox/assistive technology and social unfurls as needed; add factual portfolio content. No architectural changes are required by this audit.
