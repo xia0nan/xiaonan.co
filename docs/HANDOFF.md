@@ -1,13 +1,14 @@
 # Resume xiaonan.co V1
 
-The user requested a pause to restart Codex and enable Chrome computer use. Resume the existing V1 implementation; do not start over.
+Updated 2026-09-19 after the Chrome acceptance session. The user requested another pause to pick up the work later. Resume the existing V1 implementation; do not start over.
 
 ## Repository and scope
 
 - Workspace: `/Users/shawnx/Developer/personal-branding/xiaonan.co`
 - Current branch: `build-v1`; primary branch stays `master`.
 - Initial starter baseline: `8d1b9f8` on master.
-- Implementation commit: `91bf86c` (temporary verification articles were included there; this checkpoint removes them from the final tree).
+- Implementation commit: `91bf86c`; prior handoff/fixture cleanup: `46f7c84`. Temporary verification articles are absent from the current tree.
+- This session needed no application-code changes; the checkpoint records acceptance evidence and remaining work.
 - No push, merge, Cloudflare configuration, analytics, or DNS changes are authorized for this milestone.
 - Agreed identity: Xiao Nan / Shawn; Applied AI · ML Systems · Product; GitHub `https://github.com/xia0nan` only.
 - Quiet editorial design, warm neutral light/dark themes, serif headings, sans body, restrained rows. Honest empty Work/Projects/Writing; one unpublished MDX demonstration.
@@ -25,28 +26,39 @@ The user requested a pause to restart Codex and enable Chrome computer use. Resu
 
 ## Validation so far
 
-See `docs/validation.md` for exact evidence and remaining checks. Six tests and the final checked production build pass. Temporary published/external/future entries were validated, removed, and the final site rebuilt. Production now contains only the six intended pages and an empty feed. The draft remains source-only in production.
+See `docs/validation.md` for exact evidence, contrast values, tool limitations, and the remaining checklist. Most browser acceptance is now complete:
 
-Known warning: Vite/Rolldown warns about MDX's `use astro:head-inject` directive. Build and fixture output passed; do not hide the warning or upgrade dependencies without a reason.
+- Chrome connected successfully; the stale 1px device emulation was fixed.
+- All five production pages passed navigation/active-state and no-overflow checks at 360/768/1440 CSS pixels.
+- Draft MDX was visually reviewed in both themes; article navigation correctly activates Writing.
+- Light/Dark persistence, System behavior, storage-denied and script-disabled sandbox cases, live embedded light/dark preference changes, skip-link keyboard focus, and reduced-motion emulation passed.
+- Custom 404 renders correctly; final metadata/Person JSON-LD, XML, empty RSS, and draft exclusion passed.
+- Text/muted/accent contrast exceeds 4.5:1 against both backgrounds in both palettes.
+- Disposable browser harness removed; only the original unpublished demonstration remains. Final `npm test` passed 6/6 and final `npm run build` passed with 0 Astro check diagnostics and 6 production pages.
 
-## Immediate TODO after restart
+Known warning: Vite/Rolldown still warns about MDX’s `use astro:head-inject` directive. Build and MDX visual output passed; do not hide the warning or upgrade dependencies without a reason.
 
-1. Read `AGENTS.md`, this handoff, and `docs/validation.md`. Check Git status.
-2. Connect to Chrome using the now-enabled browser tools. A local-site Chrome tab may already exist.
-3. Inspect server status, starting only if needed:
-   ```sh
-   npm run astro -- dev status
-   npm run dev -- --background
-   npm run astro -- preview status
-   npm run preview -- --host 127.0.0.1 --port 4322
-   ```
-   Previously dev was `http://localhost:4321` and production preview `http://127.0.0.1:4322`. The last sandbox status calls reported neither running; this may reflect sandbox process visibility, so verify in the appropriate permission context. Initial startup and localhost HTTP checks required escalation.
-4. Reset Chrome device emulation. Native accessibility `setValue` on the Width stepper did not work; it left the width at 1px. This was a tool/input issue, not a measured responsive defect. Use the newly enabled browser control for reliable 360/768/1440 viewports.
-5. Complete browser checks in `docs/validation.md`, including theme/storage/JS-disabled cases, keyboard/focus, responsive overflow, MDX rendering, and production navigation/404.
-6. If needed, reintroduce disposable published/external/future fixtures for browser checks, then remove them and rebuild. Keep only `draft-demonstration.mdx` in the delivered content collection. Do not leave fixture files in the final tree.
-7. Inspect and fix any visual/runtime issues. Compute contrast for the existing text/muted/accent colors in both palettes; verify code/table scrolling. Confirm article navigation activates Writing.
-8. Re-run tests/build after fixes; update validation record honestly, commit logical changes on `build-v1`, and leave a clean worktree. No external deployment actions.
-9. Deliver a concise final response with local review URL, README link, and validation/limitations.
+## Next steps on resume
+
+1. Read `AGENTS.md`, this handoff, and `docs/validation.md`; check Git status. Most acceptance work is done—do not redo it wholesale.
+2. Discover current Chrome tabs. The existing user tab was on `http://localhost:4321/writing/draft-demonstration/`. The temporary production tab may have closed after interruption.
+3. Check current server listeners/browser response before starting anything. Both URLs worked even though Astro status commands reported no managed servers:
+   - Development: `http://localhost:4321`
+   - Production preview: `http://127.0.0.1:4322`
+   - Inspect with `lsof -nP -iTCP:4321 -iTCP:4322 -sTCP:LISTEN`.
+   - If needed, start dev with `npm run dev -- --background`; manage with `npm run astro -- dev status|logs|stop`.
+   - If needed, start preview with `npm run preview -- --host 127.0.0.1 --port 4322`.
+4. Verify actual horizontal scrolling in mobile article code/table blocks. CSS overflow and bounded geometry passed, but browser-bridge `locator('pre').press('ArrowRight')` timed out twice. Inspect fresh UI and try native scrolling/focus; do not infer a site defect from the tool timeout.
+5. Finish keyboard traversal beyond the skip link and any remaining page-specific visual review. Finish fresh console/network/HTTP status checks, including SVG favicon and custom 404 status. Two historical dev `/favicon.ico` 404s were seen; the temporary harness had no favicon declaration, so investigate fresh evidence before making changes.
+6. Fix any demonstrated issue, rerun relevant checks/build if source changes, and update validation honestly. No fixtures currently need cleanup.
+7. Commit any remaining logical changes on `build-v1`, leave a clean worktree, and deliver a concise final response with local review URL, README link, validation, and limitations. No push, merge, or deployment actions.
+
+## Browser tooling notes
+
+- Use `cua_repl`; inspect its current documentation on reconnect. Chrome extension supports read-only DOM evaluation, Playwright locators, screenshots, and a browser `viewport` capability.
+- Native DevTools device emulation can conflict with viewport overrides. It has now been turned off. Verify `innerWidth` after setting a viewport.
+- Viewport override was reset at this pause. Reduced-motion emulation was reset and DevTools closed. Theme controls were left on System.
+- The storage/no-JS checks used a temporary static harness serving actual production pages in sandboxed iframes. It has been deleted and the clean production output rebuilt. See validation for the exact coverage; no need to recreate it unless a theme fix warrants retesting.
 
 ## Useful files
 
