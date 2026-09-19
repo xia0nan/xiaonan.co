@@ -16,6 +16,8 @@ interface Props {
 const { title, description, canonical, noindex = false, type = 'website', publishedAt, updatedAt, includePerson = false } = Astro.props;
 const canonicalUrl = new URL(canonical ?? Astro.url.pathname, site.url);
 const pageTitle = title === site.name ? `${site.name} / ${site.alternateName} — ${site.positioning}` : `${title} — ${site.name}`;
+const socialImageUrl = new URL('/social-card.png', site.url);
+const socialImageAlt = `${site.name} — ${site.positioning}. ${new URL(site.url).hostname}`;
 ---
 <!doctype html>
 <html lang="en">
@@ -44,7 +46,14 @@ const pageTitle = title === site.name ? `${site.name} / ${site.alternateName} �
     <meta property="og:url" content={canonicalUrl.href} />
     <meta property="og:site_name" content={`${site.name} / ${site.alternateName}`} />
     <meta property="og:type" content={type} />
-    <meta name="twitter:card" content="summary" />
+    <meta property="og:image" content={socialImageUrl.href} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={socialImageAlt} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:image" content={socialImageUrl.href} />
+    <meta name="twitter:image:alt" content={socialImageAlt} />
     {publishedAt && <meta property="article:published_time" content={publishedAt.toISOString()} />}
     {updatedAt && <meta property="article:modified_time" content={updatedAt.toISOString()} />}
     <link rel="icon" href="/favicon.ico" sizes="16x16 32x32 48x48" />

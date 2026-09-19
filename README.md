@@ -105,13 +105,15 @@ externalUrl: https://example.com/original-article
 
 The Writing index, homepage selections, and summary RSS link directly to the original. An external-source label appears in lists. No local article route or sitemap entry is created. External entries obey the same draft/date rules and do not appear as local draft previews.
 
-RSS lives at `/rss.xml`, including when there are no published articles. Sitemap output is `/sitemap-index.xml`; `/robots.txt` points to it. The custom `/404.html` is `noindex` and excluded from the sitemap. Home and About include Person JSON-LD using only the configured identity and profiles. Social images are deferred until real assets exist.
+RSS lives at `/rss.xml`, including when there are no published articles. Sitemap output is `/sitemap-index.xml`; `/robots.txt` points to it. The custom `/404.html` is `noindex` and excluded from the sitemap. Home and About include Person JSON-LD using only the configured identity and profiles.
 
-The shared layout declares a summary social card. Actual platform unfurls still need a public deployment check. `public/favicon.ico` (16/32/48px) and `public/apple-touch-icon.png` (180px) are static raster exports of the existing `public/favicon.svg` monogram; update all three together if the mark changes.
+The shared layout declares a large-image social card using the static 1200 × 630 `public/social-card.png`, with absolute production URLs and image alt text. The editable SVG and export instructions are in [design/](design/README.md). Page titles and descriptions remain specific to each page. Actual platform unfurls still need checking after the image reaches production. `public/favicon.ico` (16/32/48px) and `public/apple-touch-icon.png` (180px) are static raster exports of the existing `public/favicon.svg` monogram; update all three together if the mark changes.
 
 ## Deployment: Cloudflare Pages
 
 The repository uses `main` as its primary and production deployment branch, with `build-v1` retained as the V1 development branch. Production is live at [xiaonan.co](https://xiaonan.co/). Cloudflare Pages project `xiaonan-co` is connected to this repository with automatic deployments from `main`; [xiaonan-co.pages.dev](https://xiaonan-co.pages.dev/) remains available. The manual DNS/custom-domain migration is complete; see [the handoff](docs/HANDOFF.md) for verification and remaining work.
+
+The owner has added the site to Google Search Console and enabled Cloudflare Web Analytics. The `social-preview` branch implements the branded fallback social image and metadata; review its PR/Pages preview before merging, then check production delivery and real unfurls. A short Safari/Lighthouse/legacy-URL review follows. See the [current launch checklist](docs/HANDOFF.md#reviewed-launch-checklist--current); sitemap submission and analytics data arrival remain follow-up confirmations, not new setup tasks.
 
 The current Pages project uses these settings:
 
