@@ -1,6 +1,6 @@
 # xiaonan.co
 
-A static personal site for Xiao Nan / Shawn, built with Astro, TypeScript, Tailwind 4, MDX, and Content Collections. The V1 intentionally starts with empty Work, Projects, and published Writing sections. The only article supplied is an unpublished MDX demonstration.
+A static personal site for Xiao Nan / Shawn, built with Astro, TypeScript, Tailwind 4, MDX, and Content Collections. Work and Projects intentionally start empty. Writing includes a featured external Agoda Engineering article on Medium; the local MDX demonstration remains unpublished.
 
 ## Local development
 
@@ -113,7 +113,7 @@ The shared layout declares a large-image social card using the static 1200 × 63
 
 The repository uses `main` as its primary and production deployment branch, with `build-v1` retained as the V1 development branch. Production is live at [xiaonan.co](https://xiaonan.co/). Cloudflare Pages project `xiaonan-co` is connected to this repository with automatic deployments from `main`; [xiaonan-co.pages.dev](https://xiaonan-co.pages.dev/) remains available. The manual DNS/custom-domain migration is complete; see [the handoff](docs/HANDOFF.md) for verification and remaining work.
 
-The owner has added the site to Google Search Console and enabled Cloudflare Web Analytics. The `social-preview` branch implements the branded fallback social image and metadata; review its PR/Pages preview before merging, then check production delivery and real unfurls. A short Safari/Lighthouse/legacy-URL review follows. See the [current launch checklist](docs/HANDOFF.md#reviewed-launch-checklist--current); sitemap submission and analytics data arrival remain follow-up confirmations, not new setup tasks.
+The owner has added the site to Google Search Console and enabled Cloudflare Web Analytics. The branded fallback social image and metadata were merged in PR #1; production delivery and real unfurls are the follow-up checks. A short Safari/Lighthouse/legacy-URL review follows. See the [current launch checklist](docs/HANDOFF.md#reviewed-launch-checklist--current); sitemap submission and analytics data arrival remain follow-up confirmations, not new setup tasks.
 
 The current Pages project uses these settings:
 
