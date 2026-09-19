@@ -1,0 +1,23 @@
+<div class="theme-control" hidden>
+  <label for="theme">Appearance</label>
+  <select id="theme" name="theme">
+    <option value="system">System</option>
+    <option value="light">Light</option>
+    <option value="dark">Dark</option>
+  </select>
+</div>
+<script>
+  const select = document.querySelector<HTMLSelectElement>('#theme');
+  if (select) {
+    select.value = document.documentElement.dataset.theme || 'system';
+    select.closest<HTMLElement>('.theme-control')!.hidden = false;
+    select.addEventListener('change', () => {
+      const value = select.value;
+      document.documentElement.dataset.theme = value;
+      try {
+        if (value === 'system') localStorage.removeItem('theme');
+        else localStorage.setItem('theme', value);
+      } catch { /* Preference still works for this page when storage is unavailable. */ }
+    });
+  }
+</script>

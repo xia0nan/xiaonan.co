@@ -1,0 +1,15 @@
+---
+import { getCollection, render } from 'astro:content';
+import type { CollectionEntry } from 'astro:content';
+import ArticleLayout from '../../layouts/ArticleLayout.astro';
+import { localWriting } from '../../lib/writing';
+export async function getStaticPaths() {
+  return localWriting(await getCollection('writing'), import.meta.env.DEV).map((entry) => ({
+    params: { id: entry.id }, props: { entry },
+  }));
+}
+interface Props { entry: CollectionEntry<'writing'>; }
+const { entry } = Astro.props;
+const { Content } = await render(entry);
+---
+<ArticleLayout entry={entry}><Content /></ArticleLayout>

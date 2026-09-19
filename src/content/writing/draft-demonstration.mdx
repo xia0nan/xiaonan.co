@@ -1,0 +1,51 @@
+---
+title: "Draft: a small publishing demonstration"
+description: "An unpublished example of prose, code, and a static Astro component."
+publishedAt: 2026-01-01
+tags: ["Notes", "Publishing"]
+featured: false
+draft: true
+---
+
+import Callout from '../../components/Callout.astro';
+
+This is a **draft demonstration**, not a published article. It exists to make the writing workflow easy to try. The article layout supplies the page title, so the body starts with second-level headings.
+
+## A place for an idea
+
+A useful note can begin with a question. Write in short paragraphs, link to [the writing index](/writing/), and use *emphasis* sparingly.
+
+<Callout title="An Astro component in MDX">
+  <p>This callout renders as static HTML. It doesn’t need a client-side framework.</p>
+</Callout>
+
+### A simple working list
+
+- Start with the problem.
+- Explain what you tried.
+- Leave space for what you don’t know yet.
+
+1. Write a draft.
+2. Review it locally.
+3. Set a publication date and publish when ready.
+
+> Clear writing makes the assumptions visible.
+
+## A little code
+
+Inline code such as `draft: true` can explain a detail. Larger examples have room of their own:
+
+```ts
+const published = entries.filter((entry) => {
+  return !entry.draft && entry.publishedAt <= new Date();
+});
+```
+
+## A compact comparison
+
+| Format | Useful for | Browser JavaScript |
+| --- | --- | --- |
+| Markdown | Plain prose and code | None |
+| MDX with Astro | Prose with static components | None |
+
+The same metadata will drive the article page, listings, and RSS feed once this entry is published.

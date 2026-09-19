@@ -1,0 +1,12 @@
+---
+import type { WorkEntry } from '../data/work';
+interface Props { entry: WorkEntry; }
+const { entry } = Astro.props;
+---
+<article class="content-row" id={entry.id}>
+  <div class="row-meta">{[entry.organization, entry.role, entry.period].filter(Boolean).join(' · ')}</div>
+  <h3>{entry.url ? <a href={entry.url}>{entry.title} <span aria-hidden="true">↗</span></a> : entry.title}</h3>
+  <p>{entry.summary}</p>
+  {entry.contribution && <p>{entry.contribution}</p>}
+  {entry.tags.length > 0 && <ul class="tags" aria-label="Topics">{entry.tags.map((tag) => <li>{tag}</li>)}</ul>}
+</article>

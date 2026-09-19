@@ -1,0 +1,17 @@
+---
+import { site } from '../data/site';
+import ThemeToggle from './ThemeToggle.astro';
+---
+<footer class="site-footer shell">
+  <div class="footer-top">
+    <p>{site.name} <span class="muted">/ {site.alternateName}</span></p>
+    <div class="footer-links">
+      {site.profiles.map(({ label, href }) => <a href={href}>{label} <span aria-hidden="true">↗</span></a>)}
+      <a href="/rss.xml">RSS</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p class="small muted">Applied AI, ML systems, and the products they make possible.</p>
+    <ThemeToggle />
+  </div>
+</footer>

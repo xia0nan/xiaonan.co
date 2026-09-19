@@ -1,0 +1,18 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import SectionHeading from '../../components/SectionHeading.astro';
+import { isPublished, publishedWriting, localWriting } from '../../lib/writing';
+const entries = await getCollection('writing');
+const now = new Date();
+const published = publishedWriting(entries, now);
+const previews = import.meta.env.DEV ? localWriting(entries, true, now).filter((entry) => !isPublished(entry, now)) : [];
+---
+<BaseLayout title="Writing" description="Notes and articles by Xiao Nan / Shawn on applied AI, ML systems, and product." noindex={previews.length > 0}>
+  <header class="page-intro"><p class="eyebrow">Notes, ideas & observations</p><h1>Writing</h1><p class="intro">Thinking through the things I’m learning, building, and curious about.</p><a class="text-link small" href="/rss.xml">Subscribe via RSS <span aria-hidden="true">↗</span></a></header>
+  <section class="page-content" aria-label="Published writing">
+    {published.length ? published.map((entry) => <ArticleCard entry={entry} />) : <p class="empty-state">No published articles yet. There’s room here for the first one.</p>}
+  </section>
+  {previews.length > 0 && <section class="preview-section" aria-label="Development previews"><SectionHeading title="Draft & scheduled previews" /><p class="small">Local development only. These articles are excluded from production until published.</p>{previews.map((entry) => <ArticleCard entry={entry} preview />)}</section>}
+</BaseLayout>

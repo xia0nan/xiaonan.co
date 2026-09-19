@@ -1,0 +1,15 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+<BaseLayout title="About" description="About Xiao Nan, also known as Shawn. Interests in applied AI, ML systems, and product." includePerson>
+  <header class="page-intro"><p class="eyebrow">A brief introduction</p><h1>Hi, I’m {site.name}.<br />Also {site.alternateName}.</h1></header>
+  <div class="about-copy">
+    <p>My interests sit at the intersection of applied AI, ML systems, and product. I’m curious about what it takes to turn a promising technical idea into something useful.</p>
+    <p>This site is a place to collect my work, share things I’m learning, and make it easier to connect with peers and collaborators.</p>
+    <h2>What I’m thinking about</h2>
+    <p>How AI fits into real problems. How machine learning systems hold up in practice. And how product decisions shape what we choose to build.</p>
+    <h2>Elsewhere</h2>
+    {site.profiles.map(({ label, href }) => <p><a href={href}>{label} <span aria-hidden="true">↗</span></a></p>)}
+  </div>
+</BaseLayout>

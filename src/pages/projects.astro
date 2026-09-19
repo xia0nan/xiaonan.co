@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+---
+<BaseLayout title="Projects" description="Independent projects and experiments by Xiao Nan / Shawn.">
+  <header class="page-intro"><p class="eyebrow">Independent builds & experiments</p><h1>Projects</h1><p class="intro">A space to try ideas, follow a question, and learn by making.</p></header>
+  <section class="page-content" aria-label="Project entries">{projects.length ? projects.map((entry) => <ProjectCard entry={entry} />) : <p class="empty-state">No projects listed yet. Builds and experiments will appear here.</p>}</section>
+</BaseLayout>

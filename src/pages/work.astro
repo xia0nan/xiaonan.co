@@ -1,0 +1,9 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import WorkCard from '../components/WorkCard.astro';
+import { work } from '../data/work';
+---
+<BaseLayout title="Work" description="Professional work and contributions by Xiao Nan / Shawn, across applied AI, ML systems, and product.">
+  <header class="page-intro"><p class="eyebrow">Professional contributions</p><h1>Work</h1><p class="intro">A place for the problems, contributions, and outcomes behind the work.</p></header>
+  <section class="page-content" aria-label="Work entries">{work.length ? work.map((entry) => <WorkCard entry={entry} />) : <p class="empty-state">No case studies published yet. I’ll share them here when they’re ready.</p>}</section>
+</BaseLayout>

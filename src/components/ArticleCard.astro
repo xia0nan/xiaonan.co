@@ -1,0 +1,17 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { articleUrl, formatDate } from '../lib/writing';
+interface Props { entry: CollectionEntry<'writing'>; preview?: boolean; }
+const { entry, preview = false } = Astro.props;
+const { data } = entry;
+---
+<article class="content-row article-row">
+  <div class="row-meta">
+    <time datetime={data.publishedAt.toISOString()}>{formatDate(data.publishedAt)}</time>
+    {preview && <span class="preview-label">{data.draft ? 'Draft preview' : 'Scheduled preview'}</span>}
+    {data.externalUrl && <span>External · {new URL(data.externalUrl).hostname}</span>}
+  </div>
+  <h3><a href={articleUrl(entry)}>{data.title}{data.externalUrl && <span aria-hidden="true"> ↗</span>}</a></h3>
+  <p>{data.description}</p>
+  {data.tags.length > 0 && <ul class="tags" aria-label="Topics">{data.tags.map((tag) => <li>{tag}</li>)}</ul>}
+</article>
