@@ -1,16 +1,16 @@
 # xiaonan.co V1 handoff
 
-Updated 2026-09-19 after reviewing the earlier handoff and completing local V1 polish and the remaining acceptance checks. Resume this implementation; do not start over.
+Updated 2026-09-19 for the initial GitHub push and migration to `main`, after completing V1 polish and the remaining local acceptance checks. Resume this implementation; do not start over.
 
 ## Scope and current state
 
 - Workspace: `/Users/shawnx/Developer/personal-branding/xiaonan.co`.
-- Development branch: `build-v1`; primary branch: `master`.
+- Development branch: `build-v1`; primary and production deployment branch: `main`. The initial V1 is published on both branches.
 - Baseline: `8d1b9f8`; initial implementation: `91bf86c`. Earlier acceptance evidence is retained in [validation.md](validation.md).
 - Identity: Xiao Nan / Shawn; Applied AI · ML Systems · Product; only the agreed GitHub profile, `https://github.com/xia0nan`.
 - Quiet editorial design, warm neutral light/dark themes, serif headings, sans body, restrained rows.
 - Work/Projects/published Writing intentionally remain empty. The sole article is an unpublished MDX demonstration. No invented portfolio claims or temporary fixtures.
-- Local development and commits are in scope. No push, merge, deployment, Cloudflare configuration, analytics, or DNS changes were performed.
+- The user authorized pushing V1 and using `main` instead of `master` for deployment. The empty remote is initialized with V1 on `main` and `build-v1`. Cloudflare configuration, deployment, analytics, and DNS changes remain separate milestones.
 
 ## Implemented
 
@@ -21,7 +21,7 @@ Updated 2026-09-19 after reviewing the earlier handoff and completing local V1 p
 - System/Light/Dark appearance with early saved preference, storage-failure fallback, CSS system behavior, and matching theme-color hints.
 - Article typography, Shiki light/dark code, static Astro callouts, keyboard-scrollable code and tables, and monochrome print layout.
 - Mobile navigation/footer links and appearance selector have 44px-high targets. Row title hover/focus uses the accent; dates use tabular numerals; code gets a small radius and two-space tabs.
-- Local GitHub Actions workflow runs locked install, tests, and checked build on Node 24 after an authorized push. No remote CI run has occurred.
+- GitHub Actions runs locked install, tests, and checked build on Node 24 for pushes to `main`/`build-v1` and pull requests to `main`. Check the latest remote run before deploying.
 
 Only appearance handling ships browser JavaScript. Table focusability is added through the existing Sätteri processor at build time; no new dependencies were needed. Native select rendering is retained.
 
@@ -37,7 +37,7 @@ The earlier “Essential best practices” and “Frontend design” suggestions
 | Cloudflare cache/security headers | Sensible deployment work, deferred. The proposed `/*` revalidation rule overlaps `/_astro/*`; Pages joins duplicate header values, so that recipe would produce conflicting cache directives. Use non-conflicting rules and verify actual hosted responses. |
 | www canonicalization | Sensible launch work, deferred. Configure an HTTP redirect with HTTPS coverage and preserve paths/queries; DNS alone does not redirect URLs. |
 | Print styles | Implemented, including wrapping code and printable table widths so horizontally hidden content is not lost. Verified in Chrome print preview from Dark mode. |
-| CI validation | Implemented locally. A workflow is not a deployment gate by itself; required checks or a Pages build command including tests must be configured at launch if desired. |
+| CI validation | Implemented in GitHub Actions. A workflow is not a deployment gate by itself; required checks or a Pages build command including tests must be configured at launch if desired. |
 | Row title accent hover | Implemented for hover and keyboard focus. Reuses the existing link transition and reduced-motion rule. |
 | Firefox/macOS font smoothing | Deferred. Platform-specific smoothing is an aesthetic preference, not a cross-browser consistency guarantee. No demonstrated rendering issue. |
 | Tabular date numerals | Implemented; improves numeric alignment where the selected font supports it. Month-name widths still vary. |
@@ -61,7 +61,7 @@ See [validation.md](validation.md) for historical and current evidence. Current 
 - Both article print-preview pages reviewed: monochrome from Dark mode, no site navigation/footer, full code/table content.
 - No fresh warning/error console entries in the production review tab. No temporary fixtures remain.
 
-Known Vite/Rolldown warning remains: MDX's `use astro:head-inject` directive. Build and visual output pass; do not suppress it or upgrade dependencies without a reason. Browser verification is Chrome desktop with responsive viewport overrides, not real iOS/Android, Safari, Firefox, or assistive-technology certification. Mobile browser chrome coloring, remote CI, hosted headers/redirects, and real social unfurls still require their corresponding environment.
+Known Vite/Rolldown warning remains: MDX's `use astro:head-inject` directive. Build and visual output pass; do not suppress it or upgrade dependencies without a reason. Browser verification is Chrome desktop with responsive viewport overrides, not real iOS/Android, Safari, Firefox, or assistive-technology certification. Mobile browser chrome coloring, hosted headers/redirects, and real social unfurls still require their corresponding environment. Remote CI status is available in GitHub Actions.
 
 ## Next development milestone
 

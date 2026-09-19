@@ -111,14 +111,14 @@ The shared layout declares a summary social card. Actual platform unfurls still 
 
 ## Later deployment: Cloudflare Pages
 
-This V1 is local only. Pushing, merging, configuring Cloudflare, analytics, and changing DNS are separate milestones. Keep `master` as the primary branch; review and merge `build-v1` only when ready to proceed.
+The repository uses `main` as its primary and production deployment branch, with `build-v1` retained as the V1 development branch. The initial V1 is published to GitHub. Configuring Cloudflare, analytics, and changing DNS remain separate milestones.
 
 When deployment is authorized, connect the GitHub repository to a Cloudflare Pages project with:
 
 | Setting | Value |
 | --- | --- |
 | Repository | `xia0nan/xiaonan.co` |
-| Production branch | `master` |
+| Production branch | `main` |
 | Root directory | Repository root (leave blank) |
 | Build command | `npm run build` |
 | Output directory | `dist` |
@@ -132,7 +132,7 @@ These settings follow the [Cloudflare Astro deployment guide](https://developers
 
 At that milestone, review response headers/caching and HTTPS redirects from `www` to the apex, preserving paths and queries. No `_headers`, redirects, or hosting configuration have been added. Avoid overlapping broad revalidation and immutable asset rules: Pages combines matching header rules. Local Astro preview does not verify Cloudflare headers or redirects.
 
-`.github/workflows/ci.yml` prepares Node 24 validation for pushes to `master`/`build-v1` and pull requests to `master`, running `npm ci`, `npm test`, and `npm run build`. It has only been validated locally; it will run after an authorized push. To make tests a release gate later, configure required checks or include `npm test` in the Pages build command. A workflow alone does not block an independent deployment.
+`.github/workflows/ci.yml` prepares Node 24 validation for pushes to `main`/`build-v1` and pull requests to `main`, running `npm ci`, `npm test`, and `npm run build`. GitHub runs this workflow when matching branches are pushed or pull requests are opened; inspect the latest Actions result before deployment. To make tests a release gate later, configure required checks or include `npm test` in the Pages build command. A workflow alone does not block an independent deployment.
 
 ## Scope and validation
 
