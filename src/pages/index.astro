@@ -12,11 +12,9 @@ const selectedWriting = featuredWriting(await getCollection('writing'));
 ---
 <BaseLayout title={site.name} description={site.description} includePerson>
   <section class="hero" aria-labelledby="intro-title">
-    <p class="eyebrow">A personal corner of the internet</p>
+    <p class="eyebrow">xiaonan.co</p>
     <h1 id="intro-title">{site.name}<br /><span>/ {site.alternateName}</span></h1>
     <p class="positioning">{site.positioning}</p>
-    <p class="intro">I’m interested in how AI becomes useful: the systems behind it, the products around it, and the problems it can help solve.</p>
-    <a class="text-link" href="/about/">A little more about me <span aria-hidden="true">→</span></a>
   </section>
   <section class="home-section" aria-label="Selected work">
     <SectionHeading title="Selected work" href="/work/" linkLabel="All work" />

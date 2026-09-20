@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minimal Hero Section Preview — Elegant Thin Eyebrow</title>
+  <style>
+    :root {
+      --bg: #f7f5ef;
+      --text: #252821;
+      --muted: #62665d;
+      --accent: #365c45;
+      --line: #d5d8cc;
+      --surface: #eeeee5;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body {
+      margin: 0;
+      padding: 40px 20px;
+      background: #eae8e1;
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .card {
+      width: 100%;
+      max-width: 760px;
+      padding: 48px 56px;
+      border-radius: 8px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.06);
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    .card.dark {
+      --bg: #20231f;
+      --text: #eeeee5;
+      --muted: #b0b6aa;
+      --accent: #aec9ac;
+      --line: #454a41;
+      --surface: #292e27;
+    }
+
+    .eyebrow {
+      color: var(--muted);
+      font-size: clamp(1rem, 2.2vw, 1.25rem); /* ~16px to 20px */
+      font-weight: 300;                       /* Thin / Light */
+      letter-spacing: 0.08em;
+      margin: 0 0 20px;
+    }
+
+    h1 {
+      font-family: Georgia, "Times New Roman", serif;
+      font-weight: 400;
+      line-height: 1.18;
+      letter-spacing: -0.045em;
+      font-size: clamp(3.6rem, 8vw, 6.1rem);
+      margin: 12px 0 24px;
+      color: var(--text);
+    }
+
+    h1 span {
+      font-style: italic;
+      color: var(--muted);
+    }
+
+    .positioning {
+      font-size: clamp(1rem, 2.4vw, 1.25rem);
+      color: var(--accent);
+      margin: 0;
+    }
+  </style>
+</head>
+<body>
+  <!-- Light Mode Preview -->
+  <div class="card">
+    <p class="eyebrow">xiaonan.co</p>
+    <h1>Xiao Nan<br /><span>/ Shawn</span></h1>
+    <p class="positioning">Applied AI · ML Systems · Product</p>
+  </div>
+
+  <!-- Dark Mode Preview -->
+  <div class="card dark">
+    <p class="eyebrow">xiaonan.co</p>
+    <h1>Xiao Nan<br /><span>/ Shawn</span></h1>
+    <p class="positioning">Applied AI · ML Systems · Product</p>
+  </div>
+</body>
+</html>

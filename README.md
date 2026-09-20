@@ -107,7 +107,7 @@ The Writing index, homepage selections, and summary RSS link directly to the ori
 
 RSS lives at `/rss.xml`, including when there are no published articles. Sitemap output is `/sitemap-index.xml`; `/robots.txt` points to it. The custom `/404.html` is `noindex` and excluded from the sitemap. Home and About include Person JSON-LD using only the configured identity and profiles.
 
-The shared layout declares a large-image social card using the static 1200 × 630 `public/social-card.png`, with absolute production URLs and image alt text. The editable SVG and export instructions are in [design/](design/README.md). Page titles and descriptions remain specific to each page. Actual platform unfurls still need checking after the image reaches production. `public/favicon.ico` (16/32/48px) and `public/apple-touch-icon.png` (180px) are static raster exports of the existing `public/favicon.svg` monogram; update all three together if the mark changes.
+The shared layout declares a large-image social card using the static 1200 × 630 `public/social-card.png`, with absolute production URLs and image alt text. Design assets and documentation are in [design/](design/README.md). Page titles and descriptions remain specific to each page. Actual platform unfurls still need checking after the image reaches production. `public/favicon.ico` (16/32/48px) and `public/apple-touch-icon.png` (180px) are static raster exports of the existing `public/favicon.svg` monogram; update all three together if the mark changes.
 
 ## Deployment: Cloudflare Pages
 

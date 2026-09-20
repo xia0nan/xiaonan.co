@@ -1,15 +1,30 @@
-# Social preview image
+# Design Assets & Figma Reproduction
 
-`social-card.svg` is the editable 1200 × 630 master. Its colors match `src/styles/global.css`; the name uses Georgia, with Helvetica for the supporting text. Keep the wording aligned with `src/data/site.ts`.
+This directory contains vector design masters, Figma reproduction assets, and automation scripts for the site's layout and typography system.
 
-The crawler-facing asset is `public/social-card.png`. It is committed and copied unchanged by Astro, so normal builds do not render SVGs or depend on locally installed fonts. The SVG master is outside `public/` and is not shipped.
+## Files
 
-To regenerate on a machine with Georgia and Helvetica installed, use the Sharp already present in the locked Astro dependency tree:
+- **`hero-section-light.svg`**: Standalone SVG vector master of the hero section in light mode, matching the production theme (`#f7f5ef`). Drag-and-drop directly into Figma to import editable vector shapes and text layers.
+- **`hero-section.svg`**: Side-by-side light and dark mode vector master containing both color theme specifications.
+- **`figma-create-hero.js`**: Automation script for the Figma Developer Console or Scripter plugin. Programmatically creates 100% native Figma Auto-Layout components with loaded fonts (`Georgia` and `Inter`), exact paddings, gap spacing, and color tokens.
+- **`hero-preview.html`**: Standalone HTML preview file for comparing light and dark themes in any web browser.
 
-```sh
-node --input-type=module -e 'import sharp from "sharp"; await sharp("design/social-card.svg").removeAlpha().png({compressionLevel:9}).toFile("public/social-card.png");'
-```
+## How to Reproduce in Figma
 
-Inspect the PNG after export, especially if different system fonts are used. It should be opaque RGB, 1200 × 630, and remain readable when reduced to a small social card. Do not add export tooling to the production build.
+### Method 1: Direct Drag & Drop (Quickest)
+1. Open any canvas in Figma.
+2. Drag and drop `hero-section-light.svg` (or `hero-section.svg`) directly onto the canvas.
+3. Figma will immediately convert the SVG elements into native frames and editable text layers.
 
-The shared metadata is in `src/layouts/BaseLayout.astro`. Update its dimensions and alt text if the design changes. Social platforms cache previews; for a replacement image, consider a new asset filename and update the metadata together.
+### Method 2: Native Auto-Layout Script (Pixel-Perfect Components)
+1. Open Figma and any file.
+2. Open the Figma Developer Console:
+   - **macOS**: `Cmd + Option + I`
+   - **Windows / Linux**: `Ctrl + Shift + I`
+   *(Or open via the "Scripter" community plugin).*
+3. Paste the contents of `figma-create-hero.js` and press `Enter`.
+4. Native Auto-Layout frames with responsive sizing and exact typography settings will be placed on your canvas.
+
+## Social Preview Card Note
+
+The static crawler-facing social card is committed at `public/social-card.png` (1200 × 630). It is referenced by `src/layouts/BaseLayout.astro` and copied directly to the build output without requiring build-time image rendering dependencies.

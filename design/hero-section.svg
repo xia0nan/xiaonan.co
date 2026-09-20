@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1680" height="480" viewBox="0 0 1680 480" fill="none">
+  <style>
+    .eyebrow-light {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 1.6px;
+      fill: #62665d;
+    }
+    .eyebrow-dark {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 1.6px;
+      fill: #b0b6aa;
+    }
+    .title-main-light {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 64px;
+      font-weight: 400;
+      letter-spacing: -2.88px;
+      fill: #252821;
+    }
+    .title-main-dark {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 64px;
+      font-weight: 400;
+      letter-spacing: -2.88px;
+      fill: #eeeee5;
+    }
+    .title-alt-light {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 64px;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -2.88px;
+      fill: #62665d;
+    }
+    .title-alt-dark {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 64px;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -2.88px;
+      fill: #b0b6aa;
+    }
+    .positioning-light {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 400;
+      fill: #365c45;
+    }
+    .positioning-dark {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 400;
+      fill: #aec9ac;
+    }
+  </style>
+
+  <!-- ==================== LIGHT THEME ==================== -->
+  <g id="Hero-Light" transform="translate(30, 20)">
+    <rect width="780" height="440" rx="8" fill="#f7f5ef" />
+    <g transform="translate(64, 56)">
+      <text class="eyebrow-light" x="0" y="22">xiaonan.co</text>
+      <g id="Title-Light" transform="translate(0, 46)">
+        <text class="title-main-light" x="0" y="58">Xiao Nan</text>
+        <text class="title-alt-light" x="0" y="136">/ Shawn</text>
+      </g>
+      <text class="positioning-light" x="0" y="254">Applied AI · ML Systems · Product</text>
+    </g>
+  </g>
+
+  <!-- ==================== DARK THEME ==================== -->
+  <g id="Hero-Dark" transform="translate(870, 20)">
+    <rect width="780" height="440" rx="8" fill="#20231f" />
+    <g transform="translate(64, 56)">
+      <text class="eyebrow-dark" x="0" y="22">xiaonan.co</text>
+      <g id="Title-Dark" transform="translate(0, 46)">
+        <text class="title-main-dark" x="0" y="58">Xiao Nan</text>
+        <text class="title-alt-dark" x="0" y="136">/ Shawn</text>
+      </g>
+      <text class="positioning-dark" x="0" y="254">Applied AI · ML Systems · Product</text>
+    </g>
+  </g>
+</svg>

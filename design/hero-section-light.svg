@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="440" viewBox="0 0 800 440" fill="none">
+  <style>
+    .eyebrow {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 300;
+      letter-spacing: 1.6px;
+      fill: #62665d;
+    }
+    .title-main {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 64px;
+      font-weight: 400;
+      letter-spacing: -2.88px;
+      fill: #252821;
+    }
+    .title-alt {
+      font-family: Georgia, "Times New Roman", Times, serif;
+      font-size: 64px;
+      font-weight: 400;
+      font-style: italic;
+      letter-spacing: -2.88px;
+      fill: #62665d;
+    }
+    .positioning {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      font-size: 20px;
+      font-weight: 400;
+      fill: #365c45;
+    }
+  </style>
+
+  <!-- Background -->
+  <rect width="800" height="440" fill="#f7f5ef" />
+
+  <!-- Content Container -->
+  <g id="Hero" transform="translate(64, 56)">
+    <!-- Eyebrow (Thin / 300 weight) -->
+    <text class="eyebrow" x="0" y="22">xiaonan.co</text>
+
+    <!-- H1: Xiao Nan / Shawn -->
+    <g id="Title" transform="translate(0, 46)">
+      <text class="title-main" x="0" y="58">Xiao Nan</text>
+      <text class="title-alt" x="0" y="136">/ Shawn</text>
+    </g>
+
+    <!-- Positioning -->
+    <text class="positioning" x="0" y="254">Applied AI · ML Systems · Product</text>
+  </g>
+</svg>
