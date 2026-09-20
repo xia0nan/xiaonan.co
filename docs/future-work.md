@@ -1,6 +1,6 @@
 # xiaonan.co V1.1 — professional identity and evidence
 
-Updated 2026-09-20 against repository commit `bd54762` and the owner brief, the preceding production verification, and the owner's proposed plan. This is the current future-work roadmap; [HANDOFF.md](HANDOFF.md) covers operations and [validation.md](validation.md) records evidence. This document plans work; it does not authorize changes to accounts or infrastructure.
+Updated 2026-09-20 after approved publication of `ab6eff2`, using the owner brief and production verification. This is the current future-work roadmap; [HANDOFF.md](HANDOFF.md) covers operations and [validation.md](validation.md) records evidence. This document plans work; it does not authorize changes to accounts or infrastructure.
 
 ## Current owner decisions and todo
 
@@ -10,7 +10,7 @@ Updated 2026-09-20 against repository commit `bd54762` and the owner brief, the 
 - **Owner deferred the contribution brief on 2026-09-20.** Work and Projects remain empty for this release. This supersedes the original requirement to publish a Work entry now; the broader V1.1 milestone remains open.
 - [ ] Owner: write one publishable contribution brief covering problem/users, constraints, personal role, approach, evaluation, outcome, lesson, and any public link. Unknown details may be omitted; do not put confidential material in repository documentation.
 - [ ] After that brief: draft one concise featured entry with the existing Work model, review its Home/Work presentation, and obtain owner copy review before publication.
-- [ ] Review the current About/interests copy on the PR preview before merge; verify production after release.
+- [x] Owner approved the About/interests copy and publication; PR #2 merged as `ab6eff2`, with passing CI/deployment and production verification on 2026-09-20.
 - [ ] Finish any account/device/platform checks marked pending in [validation.md](validation.md).
 
 ## Decision
@@ -24,13 +24,13 @@ The platform is sufficient for V1.1, rather than permanently maintenance-free. C
 | Proposal or observation | Assessment and decision |
 | --- | --- |
 | Writing is empty; add the Agoda article | Outdated. Commit `91ad90d` already features the owner's article on Home and Writing and in RSS, linking directly to Medium with the original 2022-10-12 date. Do not add a duplicate or copy the full article. |
-| Social card PR is merged | Correct. PR #1 merged as `bd39bff`; production `/social-card.png` was verified during the article publication. Actual LinkedIn/WhatsApp unfurls remain unverified. |
-| Search Console and analytics are set up | Owner confirmed. Sitemap submission/readability, index status, and analytics data arrival are separate follow-ups, not verified completions. |
+| Social card PR is merged | Correct. PR #1 merged as `bd39bff`; production `/social-card.png` was verified during the article publication. LinkedIn preview image/title were verified before PR #2; the new description needs a post-release recheck. WhatsApp remains unverified. |
+| Search Console and analytics are set up | Verified during the launch review: sitemap success, indexed Home/About and passing live tests, analytics dashboard data, and browser beacon delivery. |
 | A crawler still sees the old Minimal Mistakes homepage | Treat as an external observation, not a diagnosed production defect. The preceding direct production audit saw the Astro site. The web retrieval tool could not access the site during this review; that does not establish stale live content. Inspect Google's last crawl versus its live test before changing anything. |
 | Sharpen homepage/About copy | Highest-value content work now. Preserve “Applied AI · ML Systems · Product”; support it with specific, verified experience and current interests. |
 | “A decade of ML/AI”, Stripe/Agoda/OCBC, named projects and outcomes | Examples from the proposal, not a verified career record. Confirm employment, dates, personal contribution, outcomes, and what can be published before using them. Article authorship does not establish ownership of every application it describes. |
 | About should be 500–700 words | Optional editorial range, not an acceptance requirement. A shorter, specific narrative can be stronger. A real photo is useful if the owner wants one and supplies an appropriate image; it is not a launch blocker. |
-| Add GitHub, LinkedIn, Medium, RSS | Sensible small set. GitHub/RSS exist. Obtain the owner's exact LinkedIn and Medium profile URLs; an article URL is not a profile URL. No guessed accounts or extra icon system. |
+| Add GitHub, LinkedIn, Medium, RSS | GitHub/RSS and owner-confirmed LinkedIn/Medium profiles are live. The same profile configuration supplies Footer, About, and Person metadata. |
 | Publish three Work entries | Good eventual direction, too large as the first gate. V1.1 requires one strong, owner-approved entry; expand only when more evidence is ready. |
 | Populate Work before Projects | Agree. Keep Projects empty until a real, selected build is ready. Agent/evaluation/copilot examples are ideas, not existing projects or commitments. |
 | Three writing pillars | Good editorial guide: applied AI/agents; ML systems/experimentation; building AI products. Treat them as flexible themes, not quotas or new tag-page requirements. |
@@ -86,7 +86,7 @@ For moved content, map an old URL to a genuinely relevant replacement. Removed c
 - [ ] Short Safari/iPhone and Home/About Lighthouse review completed; significant defects fixed.
 - [x] Repository/live-sitemap legacy inventory recorded; optional feed mapping and owner-known inbound URL follow-up remain explicit.
 - [x] Exact LinkedIn/Medium profile links supplied and added to shared configuration; destination-check limits are recorded in validation.
-- [ ] Homepage and About tell a specific, owner-approved professional story.
+- [x] Homepage interests and About publish the owner-approved current focus and professional domains. Specific contribution evidence remains deferred.
 - [ ] One evidence-backed Work entry published and surfaced appropriately on Home — owner deferred; see contribution todo above.
 
 Projects, a portrait, three case studies, a résumé PDF, and actual Google index inclusion are not mandatory for this milestone. Once the checklist is addressed, prioritize publishing and distributing substantive work rather than extending the website itself.
@@ -113,4 +113,4 @@ If the dual-site boundary is adopted, xiaonan.co holds curated professional work
 - Keep the custom 404 and existing design. No CMS, database, Workers, SSR/Cloudflare Astro adapter, React migration, comments, newsletter platform, chatbot, authentication, or animation framework is part of V1.1.
 - Follow `AGENTS.md` and the applicable Astro documentation before implementation. Use branch + PR for code/layout/dependency changes; content/docs may use `main` when authorized and permitted by repository rules. Validate meaningful changes and keep the handoff current.
 
-Current implementation updates About, interests, shared profiles, and the mobile footer. No Work claims or infrastructure changes are included. Copy review and release evidence are tracked in the handoff and validation record.
+Current implementation updates About, interests, shared profiles, and the mobile footer. No Work claims or infrastructure changes are included. Approved copy is published; release evidence is tracked in the handoff and validation record.

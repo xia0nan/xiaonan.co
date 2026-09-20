@@ -2,17 +2,17 @@
 
 Updated 2026-09-20 (Asia/Singapore). **Infrastructure is complete; the site is in launch/hardening mode.** Production is live at **https://xiaonan.co/**. Keep the static Astro architecture and do not repeat the historical migration steps below.
 
-**Future-work source of truth:** [V1.1 roadmap and owner todo](future-work.md). The current change targets peers and collaborators with owner-confirmed focus and profiles. The owner explicitly deferred the first contribution brief; Work and Projects remain empty. Do not infer biography from the Agoda article.
+**Future-work source of truth:** [V1.1 roadmap and owner todo](future-work.md). The published content targets peers and collaborators with owner-confirmed focus and profiles. The owner explicitly deferred the first contribution brief; Work and Projects remain empty. Do not infer biography from the Agoda article.
 
 ## Launch progress and immediate next step
 
 - Baseline `bd54762` simplified the hero to domain, name, and positioning, added Figma/hero assets, and removed `design/social-card.svg`. Preserve that minimal hero. The static `public/social-card.png` remains live; historical SVG evidence is retained below and in Git history.
-- This branch updates About, Current interests, Home/About descriptions, and shared LinkedIn/Medium profiles from the owner's brief. Mobile footer links now wrap, with identity on its own row. No infrastructure or dependency change.
+- PR #2 updates About, Current interests, Home/About descriptions, and shared LinkedIn/Medium profiles from the owner's brief. Mobile footer links now wrap, with identity on its own row. No infrastructure or dependency change.
 - The Agoda NLP article remains the sole published, featured external Writing entry and sole RSS item. No local article route is generated.
 
 | Item | Current evidence / follow-up |
 | --- | --- |
-| Tests/build | Fresh tests 6/6, checked build passes (28 files, zero Astro diagnostics); existing MDX bundler warning remains. Baseline [CI 35492488837](https://github.com/xia0nan/xiaonan.co/actions/runs/35492488837) passes for `bd54762`. Branch CI/preview are recorded in validation when available. |
+| Tests/build | Fresh tests 6/6, checked build passes (28 files, zero Astro diagnostics); existing MDX bundler warning remains. Baseline [CI 35492488837](https://github.com/xia0nan/xiaonan.co/actions/runs/35492488837) passes for `bd54762`. Merged release [CI 35511850260](https://github.com/xia0nan/xiaonan.co/actions/runs/35511850260) and production deployment passed; evidence is recorded in validation. |
 | Search Console | Sitemap index Success, read Sep 20, 5 pages. Home and About indexed; both live tests pass. No indexing request needed or made. |
 | Cloudflare analytics | Web Analytics dashboard has nonzero visits/page views in the last 24 hours. Chrome and Lighthouse load the script; beacon endpoint returns 204. Curl HTML omits it; no configuration defect is inferred or change made. |
 | Social image | Production PNG is byte-identical to the repository asset, 1200 × 630. LinkedIn inspector renders the card/title; production description-length warning should be rechecked after this longer description is released. WhatsApp preview pending. |
@@ -20,7 +20,9 @@ Updated 2026-09-20 (Asia/Singapore). **Infrastructure is complete; the site is i
 | Legacy URLs | Old repository and live sitemap show only Home, no published posts. Empty old `/feed.xml` currently returns 404 on the new domain; `/rss.xml` is the relevant potential replacement. Redirect decision/implementation stays separate. Owner-known inbound URLs remain to be supplied if any. |
 | Professional contribution | Deferred by owner; collection checklist is in the roadmap's todo section. No placeholder or invented Work entry. |
 
-**Next action:** owner copy review of [PR #2](https://github.com/xia0nan/xiaonan.co/pull/2) and its [About preview](https://5d3a3535.xiaonan-co.pages.dev/about/), then merge and production verification. Implementation `6c74288` passed [CI](https://github.com/xia0nan/xiaonan.co/actions/runs/35504419759), Pages deployment, and preview HTTP/content checks. Full V1.1 remains open for the deferred contribution and pending device/platform evidence. See [validation.md](validation.md) for exact results and limits. Infrastructure is complete; do not repeat migration setup.
+**Published:** owner approved copy and publication on 2026-09-20. [PR #2](https://github.com/xia0nan/xiaonan.co/pull/2) merged as `ab6eff2`; [main CI](https://github.com/xia0nan/xiaonan.co/actions/runs/35511850260) and Cloudflare production deployment `4ceb7d6b-6ba8-49ab-ac6c-b4528d566113` passed. Live Home/About copy, shared profiles/Person data, original Agoda link/date, single RSS item, sitemap/robots, social PNG, and draft/missing 404 checks passed.
+
+**Next action:** the owner will supply the deferred contribution brief from the [todo](future-work.md#current-owner-decisions-and-todo). Finish iPhone Safari, WhatsApp, the remaining keyboard/Safari matrix, and a post-release LinkedIn inspector recheck when browser access is available. Full V1.1 remains open for those items. See [validation.md](validation.md) for exact results and limits. Infrastructure is complete; do not repeat migration setup.
 
 ## Current technical cleanup and verification
 
