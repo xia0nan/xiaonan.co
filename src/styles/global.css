@@ -87,7 +87,7 @@ nav a[aria-current] { color: var(--text); text-decoration: underline; text-decor
 .footer-top, .footer-bottom { display: flex; align-items: center; justify-content: space-between; gap: 24px; }
 .footer-top { margin-bottom: 16px; }
 .site-footer p { margin: 0; }
-.footer-links { display: flex; gap: 24px; font-size: 0.875rem; }
+.footer-links { display: flex; flex-wrap: wrap; gap: 8px 24px; font-size: 0.875rem; }
 .theme-control { display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: var(--muted); }
 [hidden] { display: none !important; }
 select { background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 4px; padding: 5px 8px; font: inherit; min-height: 34px; }
@@ -137,7 +137,7 @@ select { background: var(--bg); color: var(--text); border: 1px solid var(--line
   .hero { padding-block: 0 28px; }
   .home-section { margin-top: 32px; }
   .interest-list li { grid-template-columns: 1fr; gap: 10px; }
-  .footer-bottom { align-items: flex-start; flex-direction: column; gap: 20px; }
+  .footer-top, .footer-bottom { align-items: flex-start; flex-direction: column; gap: 20px; }
   .page-intro { margin-bottom: 36px; }
 }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; } }

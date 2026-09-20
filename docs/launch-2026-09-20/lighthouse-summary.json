@@ -1,0 +1,100 @@
+[
+  {
+    "page": "home",
+    "url": "https://xiaonan.co/",
+    "fetchTime": "2026-09-20T06:02:19.384Z",
+    "lighthouseVersion": "13.5.0",
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate",
+    "scores": {
+      "performance": 0.99,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "agentic-browsing": 1
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 1706.8649999999998,
+        "display": "1.7\u00a0s"
+      },
+      "largest-contentful-paint": {
+        "value": 1717.8649999999998,
+        "display": "1.7\u00a0s"
+      },
+      "total-blocking-time": {
+        "value": 0,
+        "display": "0\u00a0ms"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "display": "0"
+      },
+      "speed-index": {
+        "value": 1706.8649999999998,
+        "display": "1.7\u00a0s"
+      }
+    },
+    "analyticsDelivery": [
+      {
+        "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "statusCode": 200,
+        "transferSize": 10338
+      },
+      {
+        "url": "https://xiaonan.co/cdn-cgi/rum?",
+        "statusCode": 204,
+        "transferSize": 475
+      }
+    ]
+  },
+  {
+    "page": "about",
+    "url": "https://xiaonan.co/about/",
+    "fetchTime": "2026-09-20T06:11:59.118Z",
+    "lighthouseVersion": "13.5.0",
+    "formFactor": "mobile",
+    "throttlingMethod": "simulate",
+    "scores": {
+      "performance": 1,
+      "accessibility": 1,
+      "best-practices": 1,
+      "seo": 1,
+      "agentic-browsing": 1
+    },
+    "metrics": {
+      "first-contentful-paint": {
+        "value": 918.686,
+        "display": "0.9\u00a0s"
+      },
+      "largest-contentful-paint": {
+        "value": 918.686,
+        "display": "0.9\u00a0s"
+      },
+      "total-blocking-time": {
+        "value": 0,
+        "display": "0\u00a0ms"
+      },
+      "cumulative-layout-shift": {
+        "value": 0,
+        "display": "0"
+      },
+      "speed-index": {
+        "value": 1393.9546659790512,
+        "display": "1.4\u00a0s"
+      }
+    },
+    "analyticsDelivery": [
+      {
+        "url": "https://static.cloudflareinsights.com/beacon.min.js/v31edd6df95cf4e85bb4c19e7a9bdbcba1788362987495",
+        "statusCode": 200,
+        "transferSize": 10328
+      },
+      {
+        "url": "https://xiaonan.co/cdn-cgi/rum?",
+        "statusCode": 204,
+        "transferSize": 475
+      }
+    ]
+  }
+]
