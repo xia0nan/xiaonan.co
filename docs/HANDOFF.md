@@ -2,26 +2,25 @@
 
 Updated 2026-09-20 (Asia/Singapore). **Infrastructure is complete; the site is in launch/hardening mode.** Production is live at **https://xiaonan.co/**. Keep the static Astro architecture and do not repeat the historical migration steps below.
 
-**Future-work source of truth:** [V1.1 roadmap](future-work.md). The next substantial milestone is owner-verified homepage/About positioning and one evidence-backed Work entry, alongside a bounded launch review. The proposed plan's empty-Writing observation is outdated; the Medium article is already live. Do not treat its sample employers, tenure, or project outcomes as verified biography.
+**Future-work source of truth:** [V1.1 roadmap and owner todo](future-work.md). The current change targets peers and collaborators with owner-confirmed focus and profiles. The owner explicitly deferred the first contribution brief; Work and Projects remain empty. Do not infer biography from the Agoda article.
 
 ## Launch progress and immediate next step
 
-Content update: the owner's [Agoda NLP article](https://medium.com/agoda-engineering/from-tf-idf-to-prompt-based-learning-agodas-nlp-applications-2dfe8abd942a) is live via commit `91ad90d` as a published, featured external entry dated 2022-10-12. Production Home/Writing and the single RSS item were verified; no local article page or sitemap URL is generated. Earlier empty-Writing/RSS observations below describe historical checkpoints.
+- Baseline `bd54762` simplified the hero to domain, name, and positioning, added Figma/hero assets, and removed `design/social-card.svg`. Preserve that minimal hero. The static `public/social-card.png` remains live; historical SVG evidence is retained below and in Git history.
+- This branch updates About, Current interests, Home/About descriptions, and shared LinkedIn/Medium profiles from the owner's brief. Mobile footer links now wrap, with identity on its own row. No infrastructure or dependency change.
+- The Agoda NLP article remains the sole published, featured external Writing entry and sole RSS item. No local article route is generated.
 
-| Item | Status | Evidence / follow-up |
-| --- | --- | --- |
-| Infrastructure, HTTPS, www redirect, custom 404 | Complete | Cloudflare and production audit passed, including the post-cleanup deployment. |
-| Local validation and remote CI | Complete at latest publication | Article commit `91ad90d`: local tests/build, [CI run 35474382775](https://github.com/xia0nan/xiaonan.co/actions/runs/35474382775), and Cloudflare production deployment passed. |
-| Google Search Console | Site added — owner confirmed | Property type, verification details, and sitemap submission were not independently inspected. Confirm `https://xiaonan.co/sitemap-index.xml` is submitted and readable if not already done. |
-| Cloudflare Web Analytics | Enabled — owner confirmed | Confirm data arrives; do not add a duplicate analytics snippet or GA4. Dashboard data was not inspected in this update. |
-| Branded social preview image and metadata | [PR #1](https://github.com/xia0nan/xiaonan.co/pull/1) merged as `bd39bff` | Static 1200 × 630 PNG, editable SVG, complete OG image metadata, and `summary_large_image`. Local checks and [implementation CI](https://github.com/xia0nan/xiaonan.co/actions/runs/35471384065) pass; Pages preview deployment and HTTP checks pass. |
-| Real social unfurls | Pending platform review | PR #1 is merged. Check the production image/title/description on the platforms the owner actually uses. |
-| Real-device Safari and Lighthouse pass | Pending | Earlier responsive Chrome and HTTP checks remain valid; they do not substitute for these checks. |
-| Old URL inventory | Pending short review | Old custom-domain removal is complete, but legacy URL coverage is a separate check. |
+| Item | Current evidence / follow-up |
+| --- | --- |
+| Tests/build | Fresh tests 6/6, checked build passes (28 files, zero Astro diagnostics); existing MDX bundler warning remains. Baseline [CI 35492488837](https://github.com/xia0nan/xiaonan.co/actions/runs/35492488837) passes for `bd54762`. Branch CI/preview are recorded in validation when available. |
+| Search Console | Sitemap index Success, read Sep 20, 5 pages. Home and About indexed; both live tests pass. No indexing request needed or made. |
+| Cloudflare analytics | Web Analytics dashboard has nonzero visits/page views in the last 24 hours. Chrome and Lighthouse load the script; beacon endpoint returns 204. Curl HTML omits it; no configuration defect is inferred or change made. |
+| Social image | Production PNG is byte-identical to the repository asset, 1200 × 630. LinkedIn inspector renders the card/title; production description-length warning should be rechecked after this longer description is released. WhatsApp preview pending. |
+| Browsers/performance | Chrome mobile/desktop copy/layout review and Mac Safari checks are recorded in validation. iPhone Safari remains pending. Production mobile Lighthouse: Home 99 performance, About 100; both 100 accessibility/best practices/SEO, zero CLS/TBT. |
+| Legacy URLs | Old repository and live sitemap show only Home, no published posts. Empty old `/feed.xml` currently returns 404 on the new domain; `/rss.xml` is the relevant potential replacement. Redirect decision/implementation stays separate. Owner-known inbound URLs remain to be supplied if any. |
+| Professional contribution | Deferred by owner; collection checklist is in the roadmap's todo section. No placeholder or invented Work entry. |
 
-**Next task:** gather the owner's verified experience, one Work example, and exact LinkedIn/Medium profile URLs using the [V1.1 source brief](future-work.md#priority-1--evidence-and-copy-brief). Draft specific homepage/About copy and one Work entry from that material. The remaining social-unfurl, Safari/Lighthouse, analytics, Search Console, and legacy-URL checks can proceed in parallel; do not wait for indexing before developing the content. The social card is implemented; design notes and assets are in [design/README.md](../design/README.md).
-
-Social-card acceptance: local tests/build and PR CI passed; preview HTTP checks passed, and production `/social-card.png` was verified byte-identical to the visually reviewed local export during the `91ad90d` publication. Chrome blocked the remote preview with `ERR_BLOCKED_BY_CLIENT`, so no hosted browser visual sign-off is claimed. Actual platform unfurls remain pending. No image service, generator dependency, or runtime JavaScript was added.
+**Next action:** owner copy review of [PR #2](https://github.com/xia0nan/xiaonan.co/pull/2) and its [About preview](https://5d3a3535.xiaonan-co.pages.dev/about/), then merge and production verification. Implementation `6c74288` passed [CI](https://github.com/xia0nan/xiaonan.co/actions/runs/35504419759), Pages deployment, and preview HTTP/content checks. Full V1.1 remains open for the deferred contribution and pending device/platform evidence. See [validation.md](validation.md) for exact results and limits. Infrastructure is complete; do not repeat migration setup.
 
 ## Current technical cleanup and verification
 

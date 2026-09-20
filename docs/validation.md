@@ -130,3 +130,59 @@ Remaining recommendations: decide separately whether CI must gate deployment; ch
 ## V1.1 roadmap review — 2026-09-20
 
 Added [future-work.md](future-work.md) after comparing the owner's proposed plan with the current repository and preceding production evidence. Corrected the outdated empty-Writing and pending-production-image assumptions; distinguished sample career claims from verified facts; defined a small source brief, one Work entry, and a bounded launch-review milestone. Search Console/analytics dashboard results, real-device checks, and actual platform unfurls remain unverified. Web retrieval could not access the site in this review; no new live-site defect or cache diagnosis is inferred. This update changes documentation only; no application tests or deployment were rerun.
+
+## V1.1 focus, profiles, and launch review — 2026-09-20
+
+### Scope and copy
+
+Baseline `bd54762` retains the minimal name/positioning hero and adds hero SVG/HTML/Figma script assets. Its [CI run 35492488837](https://github.com/xia0nan/xiaonan.co/actions/runs/35492488837) was independently verified successful. The removed `design/social-card.svg` is historical evidence, not a currently editable asset; `public/social-card.png` remains unchanged. Figma import/script execution was not tested.
+
+The owner confirmed applied AI and agentic workflows, particularly reliability and scalability, with technology and finance as professional domains. The owner explicitly deferred writing a contribution; [future-work.md](future-work.md#current-owner-decisions-and-todo) contains that todo. Work and Projects remain empty. About, Current interests, Home/About descriptions, and shared public profiles are updated on `v1-1-content-launch`; the hero is unchanged. No employers, dates, personal contribution, or impact have been inferred.
+
+Both exact owner-supplied profiles opened successfully in signed-in Chrome: LinkedIn `/in/xiao-nan/` and Medium `/@xiao.nan` (which lists the existing Agoda article). Curl received 999/403 respectively; this is a client restriction, not evidence of broken profiles. Footer, About, and Person `sameAs` use the same configuration.
+
+### Local acceptance
+
+- `npm test`: 6/6 pass. `npm run build`: 28 files, zero Astro errors/warnings/hints, six static pages. The existing MDX `use astro:head-inject` bundler warning remains.
+- Generated-output assertions pass for profiles on all five public pages, exact Person profile list on Home/About, absolute social image/card metadata, unchanged PNG, one original Agoda link on Home/Writing, exactly one RSS item, exactly five expected sitemap URLs, and draft exclusion.
+- Chrome visually reviewed Home and About at 390px mobile (including dark mode) and 1440px desktop light. Adding profiles initially crowded the mobile footer; fixed by stacking identity/links on mobile and allowing links to wrap. Corrected mobile About/Home screenshots show readable copy and a clean footer. Desktop layout has no horizontal overflow.
+- Keyboard activation of Skip to content focuses `main`. Navigation to Work renders its intended empty state. Full keyboard traversal and a complete Home/About/Work light/dark matrix remain pending; do not confuse the checks above with that complete matrix.
+- Mac Safari loads the revised About page, profiles, and native theme selector; System and explicit Dark were observed, and the Dark page was visually reviewed. Complete Safari navigation/back, explicit Light, OS-theme switching, and iPhone Safari touch/overflow checks remain pending. No iPhone was available through the tools.
+
+### Production/account evidence (before this branch is published)
+
+- Search Console domain property: `https://xiaonan.co/sitemap-index.xml` shows **Success**, submitted/read Sep 20, 2026, with **5 discovered pages**. Home and About both show **URL is on Google / Page is indexed**. Live tests show **URL is available to Google / Page can be indexed** (Home 14:02 and About 14:14, Asia/Singapore). No indexing request was made; the new draft is not yet published.
+- Cloudflare Web Analytics for `xiaonan.co`, last 24 hours (GMT+8), shows nonzero visits and page views. Data arrival is verified. Chrome's production DOM contains the Cloudflare beacon; Lighthouse network evidence records script HTTP 200 and `/cdn-cgi/rum` HTTP 204 on both pages. Curl's homepage HTML lacks the injected script. That client difference does not demonstrate a configuration failure; no analytics settings or snippet changed.
+- LinkedIn Post Inspector fetched Home with HTTP 200 and the correct canonical, title, and branded image. Visually verified image crop and title. Inspector warns the current production description is under 100 characters; this branch's description is longer, but its ingestion needs rechecking after release. Inspector also inferred Article/date from the listing despite the page's explicit `og:type=website`; no public post was sent. WhatsApp preview remains pending; no messages sent.
+- Production Agoda link/date, single RSS item, external-only sitemap behavior, and social image delivery all pass; production PNG is byte-identical to the committed image. No production change is claimed for this branch.
+
+### Mobile Lighthouse
+
+Lighthouse 13.5.0, mobile simulated throttling, clean headless Chrome against production on Sep 20. These are lab results for the baseline, not field guarantees or measurements of the pending branch. [Machine-readable summary](launch-2026-09-20/lighthouse-summary.json); full temporary reports are `/private/tmp/xiaonan-v11-{home,about}-lighthouse.report.{html,json}`.
+
+| Page | Performance | Accessibility | Best practices | SEO | FCP / LCP | TBT | CLS |
+| --- | --- | --- | --- | --- | --- | --- | --- |
+| Home | 99 | 100 | 100 | 100 | 1.7s / 1.7s | 0ms | 0 |
+| About | 100 | 100 | 100 | 100 | 0.9s / 0.9s | 0ms | 0 |
+
+Home's minor cache (~4 KiB) and legacy-JS (~11 KiB) opportunities concern the third-party Cloudflare beacon. No site-code performance fix was justified; do not add preloads or change infrastructure just for these scores. The responsive footer fix addresses an observed branch layout problem independently of Lighthouse.
+
+### Legacy URL inventory
+
+Read the old `shawn-nx/shawn-nx.github.io` Pages source (`master`, root), tree, config, navigation, and live sitemap/feed. There are no root `_posts` or `_pages`; `/docs` and `/test` theme samples are excluded from the build. Live sitemap contains only Home; the Atom feed has no entries. No evidence supports inventing redirects for theme sample paths.
+
+| Old path on xiaonan.co | Current result / relevant replacement | Decision |
+| --- | --- | --- |
+| `/` | Current Astro Home, 200 | Preserved. |
+| `/sitemap.xml` | New sitemap index is `/sitemap-index.xml` and is successfully submitted to Google | Optional compatibility mapping only; not implemented in this branch. |
+| `/feed.xml` | 404; `/rss.xml` is the relevant feed replacement | Record for a separately scoped redirect decision; old feed was empty. |
+
+Owner-known inbound links and Search Console link-level history were not exhaustively inventoried. Any subsequently supplied meaningful URL needs its own relevant replacement/removal decision. No redirect/account/security changes were made.
+
+### Release status
+
+Copy review, PR CI/Pages preview, merge, and post-merge production verification are tracked below as evidence becomes available. The deferred contribution and pending device/platform checks keep the broader V1.1 milestone open.
+
+- Implementation commit `6c74288`: [draft PR #2](https://github.com/xia0nan/xiaonan.co/pull/2), [CI run 35504419759](https://github.com/xia0nan/xiaonan.co/actions/runs/35504419759) successful, Cloudflare Pages deployment `5d3a3535-eeea-4661-9cd2-a9002ee39e5a` successful. Immutable [copy-review preview](https://5d3a3535.xiaonan-co.pages.dev/about/) and [branch preview](https://v1-1-content-launch.xiaonan-co.pages.dev/).
+- Preview HTTP audit passes all five public pages; confirmed new focus/profiles and Person data, original article link, one RSS item, five canonical production sitemap URLs, unchanged social PNG, and noindex 404s for draft/missing URLs. Browser connection became unavailable before hosted visual review; local visual evidence above is not presented as hosted visual acceptance.
+- Owner copy approval and merge remain pending by the requested review-before-publication workflow. Main/production were not changed. After approval, merge, verify the deployed copy/profiles plus feeds/metadata, re-inspect LinkedIn, and update this record. iPhone Safari, WhatsApp, and remaining keyboard/Safari checks stay pending.

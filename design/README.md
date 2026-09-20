@@ -28,3 +28,5 @@ This directory contains vector design masters, Figma reproduction assets, and au
 ## Social Preview Card Note
 
 The static crawler-facing social card is committed at `public/social-card.png` (1200 × 630). It is referenced by `src/layouts/BaseLayout.astro` and copied directly to the build output without requiring build-time image rendering dependencies.
+
+The former `design/social-card.svg` was removed in `bd54762`. The PNG is the current committed social asset; historical SVG/export evidence remains in Git history (for example `git show bd39bff:design/social-card.svg`). Hero SVGs are separate design assets, not social-card sources. Figma import and script execution have not been revalidated in this launch review.

@@ -1,6 +1,17 @@
 # xiaonan.co V1.1 — professional identity and evidence
 
-Reviewed 2026-09-20 against repository commit `91ad90d`, the preceding production verification, and the owner's proposed plan. This is the current future-work roadmap; [HANDOFF.md](HANDOFF.md) covers operations and [validation.md](validation.md) records evidence. This document plans work; it does not authorize changes to accounts or infrastructure.
+Updated 2026-09-20 against repository commit `bd54762` and the owner brief, the preceding production verification, and the owner's proposed plan. This is the current future-work roadmap; [HANDOFF.md](HANDOFF.md) covers operations and [validation.md](validation.md) records evidence. This document plans work; it does not authorize changes to accounts or infrastructure.
+
+## Current owner decisions and todo
+
+- Audience: peers and collaborators. Preserve the minimal hero, name, and “Applied AI · ML Systems · Product” positioning from `bd54762`; express the current focus through About, Current interests, and metadata.
+- Confirmed publishable focus: applied AI and agentic workflows, particularly reliability and scalability; professional domains remain technology and finance. No employer, tenure, role, contribution, or impact claim was supplied.
+- Confirmed public profiles: [LinkedIn](https://www.linkedin.com/in/xiao-nan/) and [Medium](https://medium.com/@xiao.nan), alongside the existing GitHub profile. Shared configuration supplies Footer, About, and Person metadata.
+- **Owner deferred the contribution brief on 2026-09-20.** Work and Projects remain empty for this release. This supersedes the original requirement to publish a Work entry now; the broader V1.1 milestone remains open.
+- [ ] Owner: write one publishable contribution brief covering problem/users, constraints, personal role, approach, evaluation, outcome, lesson, and any public link. Unknown details may be omitted; do not put confidential material in repository documentation.
+- [ ] After that brief: draft one concise featured entry with the existing Work model, review its Home/Work presentation, and obtain owner copy review before publication.
+- [ ] Review the current About/interests copy on the PR preview before merge; verify production after release.
+- [ ] Finish any account/device/platform checks marked pending in [validation.md](validation.md).
 
 ## Decision
 
@@ -33,7 +44,7 @@ The next content session should gather a small source brief, then draft homepage
 
 Inputs needed from the owner:
 
-- Primary audience and desired next action: for example, collaborators, hiring teams, founders, or speaking invitations. Choose a priority rather than writing for everyone at once.
+- Audience is confirmed as peers and collaborators; invite connection through confirmed profiles.
 - Current professional description and interests; confirmed roles, employers, dates, and which details may appear publicly. Do not assume the example career narrative is accurate.
 - One representative piece of work: problem, users, constraints, personal role, approach, evaluation, outcome, lesson, and any public supporting links. Metrics are optional; verified qualitative outcomes are useful.
 - Exact LinkedIn and Medium profile URLs, and whether they should appear in the shared footer/About and Person structured data.
@@ -41,7 +52,7 @@ Inputs needed from the owner:
 
 Copy outcomes:
 
-1. **Homepage:** make identity, kind of work, one credible experience signal, and current focus easy to understand in roughly ten seconds. Keep the existing positioning line. Use direct first-person language tied to facts; avoid unsupported seniority, employer, tenure, or impact claims. Point visitors toward Work, Writing, and About through the existing navigation and sections.
+1. **Homepage:** preserve the minimal hero and existing positioning line. Refine Current interests using the owner brief; add an experience signal through Selected work only after the deferred contribution is supplied. Use direct first-person language tied to facts; avoid unsupported seniority, employer, tenure, or impact claims. Point visitors toward Work, Writing, and About through the existing navigation and sections.
 2. **About:** explain what the owner does, how their interests developed, what matters now, and how they work. Add outside-work details only when supplied. Prefer a readable narrative over a chronological résumé or a word-count target.
 3. **Work:** publish one concise account of a real contribution. Use problem → constraints → approach → personal contribution → evaluation/outcome → lesson as an editing checklist, not necessarily seven displayed headings. Distinguish team results from individual contribution and keep non-public details out.
 4. **Elsewhere:** add only confirmed profile links and check their destinations. Keep RSS a subscription link. Avoid expanding navigation just to accommodate more social links.
@@ -55,7 +66,7 @@ Budget one short owner session plus targeted fixes. Stop once actual problems ar
 | Check | Action | Completion evidence |
 | --- | --- | --- |
 | Search Console | Confirm `https://xiaonan.co/sitemap-index.xml` is submitted/readable. Inspect Home and About; compare indexed and live results. Request indexing if missing/outdated and appropriate. | Record sitemap result, inspection date/status, and any request made. Index inclusion is an external outcome, not a guaranteed launch condition. |
-| Analytics | Confirm real page-view data appears in Cloudflare Web Analytics. Investigate delivery only if absent. | Record an observed data point/dashboard result; do not add a second tracker. |
+| Analytics | Confirm real page-view data appears in Cloudflare Web Analytics. Browser script delivery and beacon HTTP 204 are verified; the earlier curl absence did not reproduce in Chrome. | Record an observed data point/dashboard result; do not add a second tracker. |
 | Social unfurls | Owner previews `https://xiaonan.co/` in LinkedIn and WhatsApp; Slack/Telegram only if used. Check title, description, image, crop. | Platform results noted; no public post or message is required merely to prepare/review a preview. Automated checks must not send messages to others. |
 | Browsers | Short Mac Safari/iPhone Safari check, including dark/system mode, navigation/back, fonts, tap targets, and overflow. | Device/browser and observed result recorded. Use the local draft for code/table checks; the published Medium entry is external. |
 | Lighthouse/PageSpeed | Check Home and About once, with mobile performance included. Fix demonstrated accessibility, layout-shift, asset-size, or SEO problems. | Save findings and meaningful fixes; do not require a perfect score. Recheck affected behavior after fixes. |
@@ -69,14 +80,14 @@ For moved content, map an old URL to a genuinely relevant replacement. Removed c
 
 - [x] Agoda Medium article featured on Home/Writing and included in RSS.
 - [x] Branded social card merged and production image delivery verified.
-- [ ] Search Console sitemap and Home/About inspection results recorded; request indexing where useful.
-- [ ] Cloudflare analytics data arrival confirmed.
+- [x] Search Console sitemap success (5 pages) and indexed Home/About results recorded. Home live test passed; About live test status is recorded in validation.
+- [x] Cloudflare analytics data arrival confirmed in Web Analytics, with browser beacon delivery verified.
 - [ ] Social previews checked on the owner's main sharing platforms.
 - [ ] Short Safari/iPhone and Home/About Lighthouse review completed; significant defects fixed.
-- [ ] Meaningful legacy URLs reviewed; any required follow-up explicitly recorded.
-- [ ] Exact LinkedIn/Medium profile links supplied, added, and checked.
+- [x] Repository/live-sitemap legacy inventory recorded; optional feed mapping and owner-known inbound URL follow-up remain explicit.
+- [x] Exact LinkedIn/Medium profile links supplied and added to shared configuration; destination-check limits are recorded in validation.
 - [ ] Homepage and About tell a specific, owner-approved professional story.
-- [ ] One evidence-backed Work entry published and surfaced appropriately on Home.
+- [ ] One evidence-backed Work entry published and surfaced appropriately on Home — owner deferred; see contribution todo above.
 
 Projects, a portrait, three case studies, a résumé PDF, and actual Google index inclusion are not mandatory for this milestone. Once the checklist is addressed, prioritize publishing and distributing substantive work rather than extending the website itself.
 
@@ -102,4 +113,4 @@ If the dual-site boundary is adopted, xiaonan.co holds curated professional work
 - Keep the custom 404 and existing design. No CMS, database, Workers, SSR/Cloudflare Astro adapter, React migration, comments, newsletter platform, chatbot, authentication, or animation framework is part of V1.1.
 - Follow `AGENTS.md` and the applicable Astro documentation before implementation. Use branch + PR for code/layout/dependency changes; content/docs may use `main` when authorized and permitted by repository rules. Validate meaningful changes and keep the handoff current.
 
-This review changes documentation only. It does not publish the sample biography, create work claims, add profiles, alter nanx.cc, or perform the remaining account/device checks.
+Current implementation updates About, interests, shared profiles, and the mobile footer. No Work claims or infrastructure changes are included. Copy review and release evidence are tracked in the handoff and validation record.
