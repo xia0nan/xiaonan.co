@@ -20,7 +20,7 @@ Updated 2026-09-20 (Asia/Singapore). **Infrastructure is complete; the site is i
 | Legacy URLs | Old repository and live sitemap show only Home, no published posts. Empty old `/feed.xml` currently returns 404 on the new domain; `/rss.xml` is the relevant potential replacement. Redirect decision/implementation stays separate. Owner-known inbound URLs remain to be supplied if any. |
 | Professional contribution | Deferred by owner; collection checklist is in the roadmap's todo section. No placeholder or invented Work entry. |
 
-**Next action:** owner copy review of the branch preview, then merge and production verification. Full V1.1 remains open for the deferred contribution and pending device/platform evidence. See [validation.md](validation.md) for exact results and limits. Infrastructure is complete; do not repeat migration setup.
+**Next action:** owner copy review of [PR #2](https://github.com/xia0nan/xiaonan.co/pull/2) and its [About preview](https://5d3a3535.xiaonan-co.pages.dev/about/), then merge and production verification. Implementation `6c74288` passed [CI](https://github.com/xia0nan/xiaonan.co/actions/runs/35504419759), Pages deployment, and preview HTTP/content checks. Full V1.1 remains open for the deferred contribution and pending device/platform evidence. See [validation.md](validation.md) for exact results and limits. Infrastructure is complete; do not repeat migration setup.
 
 ## Current technical cleanup and verification
 

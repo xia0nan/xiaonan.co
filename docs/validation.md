@@ -182,3 +182,7 @@ Owner-known inbound links and Search Console link-level history were not exhaust
 ### Release status
 
 Copy review, PR CI/Pages preview, merge, and post-merge production verification are tracked below as evidence becomes available. The deferred contribution and pending device/platform checks keep the broader V1.1 milestone open.
+
+- Implementation commit `6c74288`: [draft PR #2](https://github.com/xia0nan/xiaonan.co/pull/2), [CI run 35504419759](https://github.com/xia0nan/xiaonan.co/actions/runs/35504419759) successful, Cloudflare Pages deployment `5d3a3535-eeea-4661-9cd2-a9002ee39e5a` successful. Immutable [copy-review preview](https://5d3a3535.xiaonan-co.pages.dev/about/) and [branch preview](https://v1-1-content-launch.xiaonan-co.pages.dev/).
+- Preview HTTP audit passes all five public pages; confirmed new focus/profiles and Person data, original article link, one RSS item, five canonical production sitemap URLs, unchanged social PNG, and noindex 404s for draft/missing URLs. Browser connection became unavailable before hosted visual review; local visual evidence above is not presented as hosted visual acceptance.
+- Owner copy approval and merge remain pending by the requested review-before-publication workflow. Main/production were not changed. After approval, merge, verify the deployed copy/profiles plus feeds/metadata, re-inspect LinkedIn, and update this record. iPhone Safari, WhatsApp, and remaining keyboard/Safari checks stay pending.
