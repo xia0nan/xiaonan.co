@@ -47,6 +47,10 @@ The theme control offers System, Light, and Dark. System follows the operating s
 
 Browser theme-color hints follow the same choice where supported. The native appearance selector, navigation, and footer links have 44px-high targets on mobile. Printing uses a light, monochrome layout with navigation and footer hidden and article code/table content kept visible.
 
+## Portfolio visibility
+
+Work and Projects stay out of the main navigation while their respective data arrays are empty. Their existing URLs remain available. Adding the first entry restores the corresponding navigation link on the next build. The homepage's Selected work section appears only when at least one Work entry is marked `featured: true`; there is no homepage placeholder while it is empty. Writing and About remain visible.
+
 ## Writing workflow
 
 Create `.md` or `.mdx` files in `src/content/writing/`. For example, `systems/useful-models.mdx` becomes `/writing/systems/useful-models/`. Keep filenames and folders stable after publication because they define URLs; avoid a frontmatter `slug` override. Use lowercase, hyphenated names.
