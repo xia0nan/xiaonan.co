@@ -1,11 +1,17 @@
 ---
 import { site } from '../data/site';
+import { work } from '../data/work';
+import { projects } from '../data/projects';
 const path = Astro.url.pathname;
+const navigation = site.navigation.filter(({ href }) =>
+  (href !== '/work/' || work.length > 0) &&
+  (href !== '/projects/' || projects.length > 0)
+);
 ---
 <header class="site-header shell">
   <a class="wordmark" href="/" aria-label={`${site.name}, home`}>{site.name}<span class="wordmark-dot" aria-hidden="true">.</span></a>
   <nav aria-label="Main navigation">
-    {site.navigation.map(({ label, href }) => (
+    {navigation.map(({ label, href }) => (
       <a href={href} aria-current={path.startsWith(href) ? 'page' : undefined}>{label}</a>
     ))}
   </nav>

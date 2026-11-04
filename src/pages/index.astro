@@ -16,10 +16,12 @@ const selectedWriting = featuredWriting(await getCollection('writing'));
     <h1 id="intro-title">{site.name}<br /><span>/ {site.alternateName}</span></h1>
     <p class="positioning">{site.positioning}</p>
   </section>
-  <section class="home-section" aria-label="Selected work">
-    <SectionHeading title="Selected work" href="/work/" linkLabel="All work" />
-    {selectedWork.length ? selectedWork.map((entry) => <WorkCard entry={entry} />) : <p class="empty-state">Work notes and case studies will find a home here.</p>}
-  </section>
+  {selectedWork.length > 0 && (
+    <section class="home-section" aria-label="Selected work">
+      <SectionHeading title="Selected work" href="/work/" linkLabel="All work" />
+      {selectedWork.map((entry) => <WorkCard entry={entry} />)}
+    </section>
+  )}
   <section class="home-section" aria-label="Selected writing">
     <SectionHeading title="Selected writing" href="/writing/" linkLabel="All writing" />
     {selectedWriting.length ? selectedWriting.map((entry) => <ArticleCard entry={entry} />) : <p class="empty-state">No published writing yet. Notes will appear here as they’re ready.</p>}
