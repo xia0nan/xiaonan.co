@@ -1,0 +1,73 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import InferenceTrace from '../../components/inference/InferenceTrace.astro';
+import { inferenceProject } from '../../data/projects';
+import { glossary } from '../../lib/inference-glossary';
+---
+<BaseLayout title={inferenceProject.title} description={inferenceProject.summary}>
+  <header class="demo-intro">
+    <a class="back-link small" href="/projects/"><span aria-hidden="true">←</span> Projects</a>
+    <p class="eyebrow">{inferenceProject.format} · LLM systems</p>
+    <h1>{inferenceProject.title}</h1>
+    <p class="intro">{inferenceProject.summary}</p>
+  </header>
+
+  <InferenceTrace />
+
+  <section id="trace-notes" class="trace-notes" aria-labelledby="notes-title">
+    <p class="eyebrow">Walkthrough notes</p>
+    <h2 id="notes-title">What to watch for</h2>
+    <div class="notes-grid">
+      <div>
+        <h3>Prefill makes the first prediction</h3>
+        <p>Jump to Prefill and step until “Yes,” appears under sampled output. The model has processed the whole prompt and prepared the cache. The next decode pass uses that first token as its input. <a href="https://arxiv.org/abs/2311.18677">Splitwise paper</a></p>
+      </div>
+      <div>
+        <h3>The cache grows on decode</h3>
+        <p>Watch the cache go from four prompt positions to five when the worker processes “Yes,”. Each pass reuses earlier keys and values and adds the position it just processed. <a href="https://huggingface.co/docs/transformers/en/cache_explanation">How KV caching works</a></p>
+      </div>
+      <div>
+        <h3>Sampling and delivery are separate</h3>
+        <p>Compare sampled output with client output. This trace sends each visible token in its own event, then closes with a completion marker. Real servers can buffer several tokens into one event. <a href="https://html.spec.whatwg.org/multipage/server-sent-events.html">SSE format</a></p>
+      </div>
+    </div>
+    <details class="glossary">
+      <summary>Glossary</summary>
+      <dl>
+        {Object.entries(glossary).map(([term, definition]) => (
+          <div><dt>{term}</dt><dd>{definition}</dd></div>
+        ))}
+      </dl>
+    </details>
+  </section>
+</BaseLayout>
+
+<style>
+  .demo-intro { margin-bottom: 30px; }
+  .back-link { display: inline-block; margin-bottom: 22px; }
+  .demo-intro .eyebrow { margin: 0; }
+  .demo-intro h1 { max-width: 22ch; font-size: clamp(2.65rem, 6vw, 4.35rem); margin-block: 10px 16px; }
+  .demo-intro .intro { margin: 0; max-width: 63ch; }
+  .trace-notes { margin-top: 54px; }
+  .trace-notes .eyebrow { margin-bottom: 8px; }
+  .notes-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 26px;
+    margin-top: 20px;
+    border-block: 1px solid var(--line);
+    padding-block: 20px;
+  }
+  .notes-grid h3 { font-size: 1.24rem; margin-bottom: 10px; }
+  .notes-grid p, .glossary dd { margin: 0; color: var(--muted); font-size: 0.92rem; }
+  .notes-grid a { text-decoration: underline; }
+  .glossary { padding-block: 12px; border-bottom: 1px solid var(--line); }
+  .glossary summary { min-height: 44px; align-content: center; cursor: pointer; color: var(--accent); }
+  .glossary dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 26px; margin: 10px 0 8px; }
+  .glossary dt { font-weight: 600; }
+
+  @media (max-width: 640px) {
+    .back-link { margin-bottom: 16px; }
+    .notes-grid, .glossary dl { grid-template-columns: 1fr; gap: 20px; }
+  }
+</style>

@@ -1,10 +1,14 @@
 ---
 import type { ProjectEntry } from '../data/projects';
-interface Props { entry: ProjectEntry; }
-const { entry } = Astro.props;
+interface Props { entry: ProjectEntry; heading?: 'h2' | 'h3'; }
+const { entry, heading: Heading = 'h3' } = Astro.props;
+const internal = entry.url?.startsWith('/') && !entry.url.startsWith('//');
 ---
 <article class="content-row" id={entry.id}>
-  <h3>{entry.url ? <a href={entry.url}>{entry.title} <span aria-hidden="true">↗</span></a> : entry.title}</h3>
+  {entry.format && <p class="row-meta">{entry.format}</p>}
+  <Heading class="project-title">
+    {entry.url ? <a href={entry.url}>{entry.title} <span aria-hidden="true">{internal ? '→' : '↗'}</span></a> : entry.title}
+  </Heading>
   <p>{entry.summary}</p>
   {entry.tags.length > 0 && <ul class="tags" aria-label="Topics">{entry.tags.map((tag) => <li>{tag}</li>)}</ul>}
   <div class="row-links">
@@ -12,3 +16,9 @@ const { entry } = Astro.props;
     {entry.demo && <a href={entry.demo}>Demo <span aria-hidden="true">↗</span></a>}
   </div>
 </article>
+
+<style>
+  .project-title { font-size: 1.5rem; letter-spacing: normal; margin: 0 0 12px; }
+  .project-title a { color: var(--text); }
+  .project-title a:hover, .project-title a:focus-visible { color: var(--accent); }
+</style>
