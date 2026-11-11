@@ -1,0 +1,466 @@
+---
+import {
+  distributions, generatedIds, generatedTokens, phases,
+  promptIds, promptText, promptTokens, simulationSteps,
+} from '../../lib/inference';
+
+const first = simulationSteps[0];
+const stepCount = simulationSteps.length;
+const positions = Array.from({ length: promptTokens.length + generatedTokens.length }, (_, index) => index + 1);
+const nodes = [
+  { id: 'client', label: 'Client', detail: 'Sends prompt, displays text' },
+  { id: 'gateway', label: 'API gateway', detail: 'Auth and transport' },
+  { id: 'scheduler', label: 'Scheduler', detail: 'Queues and routes' },
+  { id: 'gpu', label: 'GPU worker', detail: 'Runs the model' },
+];
+const modelStages = [
+  { id: 'embedding', label: 'Embeddings', detail: 'Token IDs to vectors' },
+  { id: 'transformer', label: 'Transformer × N', detail: 'Attention and MLP' },
+  { id: 'head', label: 'LM head', detail: 'Vocabulary scores' },
+];
+---
+<section class="inference" data-inference-trace aria-label="LLM inference simulation">
+  <div class="timeline panel">
+    <div class="timeline-header">
+      <h2 class="kicker">Request trace</h2>
+      <p class="kicker step-count">Step <strong data-step-number>01</strong> / {stepCount}</p>
+    </div>
+    <ol class="phases" aria-label="Jump to a phase" data-phases hidden>
+      {phases.map((phase) => (
+        <li>
+          <button type="button" data-phase={phase.key} aria-current={phase.key === first.phase ? 'step' : undefined}>
+            <span class="mono phase-number" aria-hidden="true">{phase.number}</span>
+            <span>{phase.label}</span>
+          </button>
+        </li>
+      ))}
+    </ol>
+    <progress data-progress value="1" max={stepCount} aria-label="Simulation progress" hidden></progress>
+    <noscript><p class="caption">Enable JavaScript to step through the trace, or <a href="#trace-notes">read the walkthrough notes</a>.</p></noscript>
+  </div>
+
+  <div class="playback panel" data-playback role="group" aria-label="Playback controls" hidden>
+    <div class="playback-buttons">
+      <button type="button" data-previous aria-label="Previous step" aria-keyshortcuts="ArrowLeft" disabled><span class="control-arrow" aria-hidden="true">←</span> Previous</button>
+      <button type="button" class="play-button" data-play>Play</button>
+      <button type="button" data-next aria-label="Next step" aria-keyshortcuts="ArrowRight">Next <span class="control-arrow" aria-hidden="true">→</span></button>
+      <button type="button" data-restart aria-keyshortcuts="R">Restart</button>
+    </div>
+    <div class="playback-options">
+      <label for="inference-speed">Speed</label>
+      <select id="inference-speed" data-speed>
+        {[0.5, 1, 1.5, 2].map((speed) => <option value={speed} selected={speed === 1}>{speed}×</option>)}
+      </select>
+      <label class="systems-toggle">
+        <input type="checkbox" data-systems />
+        Systems view
+      </label>
+    </div>
+  </div>
+
+  <section class="narration panel" aria-labelledby="trace-step">
+    <div>
+      <h2 id="trace-step" data-step-title>{first.title}</h2>
+      <p data-step-description>{first.description}</p>
+    </div>
+    <div class="step-why">
+      <p class="kicker">Why it matters</p>
+      <p data-step-why>{first.why}</p>
+    </div>
+  </section>
+  <p class="sr-only" role="status" data-announcement></p>
+
+  <section class="panel" aria-labelledby="serving-title">
+    <header class="panel-heading">
+      <div>
+        <p class="kicker">01 / Serving system</p>
+        <h2 id="serving-title">Where is the request?</h2>
+      </div>
+      <span class="route-status mono" data-route-status>Request → worker</span>
+    </header>
+    <ol class="route" aria-label="Serving path">
+      {nodes.map((node) => (
+        <li data-node={node.id} aria-current={node.id === first.node ? 'step' : undefined}>
+          <strong>{node.label}</strong>
+          <span>{node.detail}</span>
+        </li>
+      ))}
+    </ol>
+  </section>
+
+  <div class="workbench">
+    <section class="panel compute" aria-labelledby="compute-title">
+      <header class="panel-heading">
+        <div>
+          <p class="kicker">02 / Model computation</p>
+          <h2 id="compute-title">Inside the GPU worker</h2>
+        </div>
+      </header>
+
+      <div class="sequence">
+        <h3 class="kicker">Prompt</h3>
+        <p class="mono raw-prompt" data-raw-prompt>{promptText}</p>
+        <ol class="tokens" data-prompt-tokens aria-label="Prompt tokens" hidden>
+          {promptTokens.map((token, index) => (
+            <li class="token" data-prompt-token>
+              <span>{token.startsWith(' ') && <span class="space-mark" aria-hidden="true">␠</span>}{token.trimStart()}</span>
+              <small data-token-id hidden>ID {promptIds[index]}</small>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="sequence">
+        <h3 class="kicker">Sampled output</h3>
+        <p class="caption" data-no-tokens>No tokens sampled yet.</p>
+        <ol class="tokens" aria-label="Sampled output tokens" data-generated-tokens hidden>
+          {generatedTokens.map((token, index) => (
+            <li class="token generated" data-generated-token hidden>
+              <span>{token.startsWith(' ') && <span class="space-mark" aria-hidden="true">␠</span>}{token.trimStart()}</span>
+              <small data-token-id hidden>ID {generatedIds[index]}</small>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <ol class="model-flow" aria-label="Model computation stages">
+        {modelStages.map((stage) => (
+          <li data-model-stage={stage.id}>
+            <strong>{stage.label}</strong>
+            <span>{stage.detail}</span>
+          </li>
+        ))}
+      </ol>
+      <div class="embedding" data-embedding hidden>
+        <span class="caption">One token ID becomes a vector</span>
+        <div class="vector" aria-hidden="true">
+          {[0.3, 0.9, 0.55, 0.7, 0.2, 0.85, 0.42, 0.64].map((opacity) => <span style={{ opacity }}></span>)}
+        </div>
+      </div>
+
+      <details class="layer-details">
+        <summary>Inside a Transformer layer</summary>
+        <p>In a typical decoder layer, self-attention uses queries, keys, and values to mix context. A feed-forward network (MLP) transforms the result. Normalization and residual connections help carry the hidden state between layers.</p>
+      </details>
+    </section>
+
+    <div class="model-readouts">
+      <section class="panel" data-cache-panel aria-labelledby="cache-title">
+        <header class="panel-heading compact">
+          <h2 id="cache-title">KV cache</h2>
+          <span class="mono cache-count"><strong data-cache-count>0</strong> / {positions.length} positions</span>
+        </header>
+        <div class="cache-grid" aria-hidden="true">
+          <span></span>
+          {positions.map((position) => <span class="cache-index">{position}</span>)}
+          {['K', 'V'].map((row) => (
+            <>
+              <span>{row}</span>
+              {positions.map((position) => <span class="cache-cell" data-cache-position={position}></span>)}
+            </>
+          ))}
+        </div>
+        <p class="caption">Each column represents one token position across the model’s attention layers.</p>
+      </section>
+
+      <section class="panel" data-probability-panel aria-labelledby="probability-title">
+        <header class="panel-heading compact"><h2 id="probability-title">Next-token probabilities</h2></header>
+        <p class="caption no-probabilities" data-no-probabilities>New scores appear when the LM head runs.</p>
+        <ul class="probabilities" data-probabilities hidden>
+          {distributions[0].map(() => (
+            <li data-candidate>
+              <span class="candidate-label mono" data-candidate-token></span>
+              <span class="probability-track" aria-hidden="true"><span data-candidate-bar></span></span>
+              <span class="mono" data-candidate-value></span>
+              <span class="sr-only" data-candidate-selected hidden>Selected</span>
+            </li>
+          ))}
+        </ul>
+        <p class="caption">Illustrative probabilities derived from example logits.</p>
+      </section>
+    </div>
+  </div>
+
+  <section class="delivery panel" aria-labelledby="delivery-title">
+    <header class="panel-heading">
+      <div>
+        <p class="kicker">03 / Delivery</p>
+        <h2 id="delivery-title">What reaches the client?</h2>
+      </div>
+      <span class="route-status mono" data-output-status>Waiting</span>
+    </header>
+    <div class="delivery-grid">
+      <div class="client">
+        <h3 class="kicker">Client output</h3>
+        <p class="client-output" data-output>Waiting for the first token…</p>
+      </div>
+      <div class="event-log">
+        <h3 class="kicker">SSE stream <span class="media-type mono">text/event-stream</span></h3>
+        <p class="caption" data-no-events>Events appear as text is delivered.</p>
+        <pre data-events hidden><code data-event-text></code></pre>
+      </div>
+    </div>
+    <dl class="metrics" data-metrics aria-label="Illustrative system metrics" hidden>
+      <div><dt>Time to first token</dt><dd data-ttft>—</dd></div>
+      <div><dt>Time per output token</dt><dd data-tpot>—</dd></div>
+      <div><dt>Prompt tokens</dt><dd data-input-count>—</dd></div>
+      <div><dt>Visible tokens sampled</dt><dd data-output-count>0</dd></div>
+    </dl>
+  </section>
+
+  <p class="caption trace-caption">
+    The token IDs, probabilities, timings, and event payloads are illustrative. Systems view shows IDs and latency metrics.
+  </p>
+</section>
+
+<script src="./trace-playback.ts"></script>
+
+<style>
+  .inference {
+    --panel: color-mix(in srgb, var(--bg) 62%, var(--surface));
+    --active: color-mix(in srgb, var(--accent) 12%, var(--bg));
+    --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+    display: grid;
+    gap: 12px;
+    line-height: 1.5;
+  }
+
+  .inference p { margin: 0; }
+  .panel { border: 1px solid var(--line); border-radius: 8px; padding: clamp(14px, 2.4vw, 22px); min-width: 0; }
+  .mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+  .kicker {
+    color: var(--muted);
+    font: 650 0.72rem/1.4 var(--mono);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .caption { color: var(--muted); font-size: 0.84rem; }
+  .caption a { text-decoration: underline; }
+
+  .timeline { background: var(--panel); }
+  .timeline-header, .panel-heading {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px 16px;
+    margin-bottom: 14px;
+  }
+  .timeline-header:last-child { margin-bottom: 0; }
+  .step-count strong { color: var(--text); }
+  .phases, .route, .model-flow {
+    display: grid;
+    gap: 8px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .phases { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  button {
+    min-height: 44px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 6px 12px;
+    background: var(--bg);
+    color: var(--text);
+    cursor: pointer;
+    font-size: 0.875rem;
+  }
+  button:hover:not(:disabled) { border-color: var(--accent); }
+  button:disabled { color: var(--muted); opacity: 0.65; cursor: default; }
+  .phases button { display: flex; align-items: center; gap: 8px; width: 100%; text-align: left; }
+  .phase-number { color: var(--muted); font-size: 0.75rem; }
+  [aria-current="step"] { border-color: var(--accent); background: var(--active); }
+  .phases button[aria-current="step"] { box-shadow: inset 0 -2px var(--accent); font-weight: 650; }
+  progress {
+    appearance: none;
+    display: block;
+    width: 100%;
+    height: 4px;
+    margin-top: 14px;
+    border: 0;
+    border-radius: 5px;
+    background: var(--line);
+    color: var(--accent);
+  }
+  progress::-webkit-progress-bar { border-radius: 5px; background: var(--line); }
+  progress::-webkit-progress-value { border-radius: 5px; background: var(--accent); }
+  progress::-moz-progress-bar { border-radius: 5px; background: var(--accent); }
+
+  .playback {
+    position: sticky;
+    top: 8px;
+    z-index: 2;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px 16px;
+    padding-block: 8px;
+    background: var(--bg);
+    box-shadow: 0 3px 10px color-mix(in srgb, var(--text) 6%, transparent);
+  }
+  .playback-buttons, .playback-options { display: flex; align-items: center; gap: 8px; }
+  .playback-options { font-size: 0.85rem; }
+  .play-button { min-width: 74px; background: var(--accent); border-color: var(--accent); color: var(--bg); font-weight: 650; }
+  .play-button:hover { filter: brightness(1.12); }
+  .systems-toggle { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-left: 8px; cursor: pointer; }
+  .systems-toggle input { width: 1rem; height: 1rem; accent-color: var(--accent); }
+
+  .narration {
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 14px 24px;
+    border-inline-start: 3px solid var(--accent);
+    background: var(--panel);
+  }
+  .narration h2, .panel-heading h2 { font-size: clamp(1.3rem, 3vw, 1.65rem); margin: 0; }
+  .narration h2 { margin-bottom: 6px; }
+  .narration p { font-size: 0.94rem; }
+  .narration .kicker { margin-bottom: 5px; font-size: 0.72rem; }
+  .step-why { border-inline-start: 1px solid var(--line); padding-inline-start: 20px; color: var(--muted); }
+  .panel-heading h2 { margin-top: 4px; }
+  .panel-heading.compact h2 { font-size: 1.3rem; margin: 0; }
+  .route-status, .cache-count { font-size: 0.78rem; color: var(--muted); }
+  .route-status { padding: 4px 8px; border: 1px solid var(--line); border-radius: 4px; }
+
+  .route { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .route li, .model-flow li {
+    display: grid;
+    gap: 2px;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    padding: 9px 12px;
+    font-size: 0.88rem;
+  }
+  .route li[aria-current], .model-flow li[aria-current] {
+    border-color: var(--accent);
+    box-shadow: inset 0 -2px var(--accent);
+  }
+  .route li span, .model-flow li span { color: var(--muted); font-size: 0.8rem; }
+
+  .workbench { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 12px; }
+  .compute { background: var(--panel); }
+  .model-readouts { display: grid; align-content: start; gap: 12px; min-width: 0; }
+  .model-readouts [data-highlight] { border-color: var(--accent); }
+  .sequence { min-height: 69px; margin-bottom: 12px; }
+  .sequence .kicker, .client .kicker { margin-bottom: 8px; }
+  .raw-prompt { font-size: 0.9rem; }
+  .tokens {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .token {
+    display: grid;
+    gap: 2px;
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 4px 8px;
+    background: var(--bg);
+    font: 0.85rem/1.45 var(--mono);
+  }
+  .token.generated { background: var(--active); }
+  .token[aria-current] { border-color: var(--accent); box-shadow: inset 0 -2px var(--accent); }
+  .token small, .space-mark { color: var(--muted); }
+  .space-mark { margin-inline-end: 1px; }
+
+  .model-flow { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .model-flow li { background: var(--bg); }
+  .model-flow li[aria-current] { background: var(--active); }
+  .embedding { display: flex; flex-wrap: wrap; align-items: center; gap: 7px 12px; margin-top: 12px; }
+  .vector { display: grid; grid-template-columns: repeat(8, 11px); gap: 3px; }
+  .vector span { aspect-ratio: 1; border-radius: 2px; background: var(--accent); }
+  .layer-details { margin-top: 14px; font-size: 0.88rem; }
+  summary { width: fit-content; min-height: 32px; color: var(--accent); cursor: pointer; }
+  .layer-details p { margin-top: 5px; color: var(--muted); }
+
+  .cache-grid {
+    display: grid;
+    grid-template-columns: 1rem repeat(8, minmax(0, 1fr));
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font: 0.75rem var(--mono);
+    text-align: center;
+  }
+  .cache-cell { aspect-ratio: 1.8; border: 1px dashed var(--line); border-radius: 3px; background: var(--panel); }
+  .cache-cell.is-filled { border-style: solid; border-color: var(--accent); background: var(--active); }
+  .cache-cell.is-new { background: var(--accent); }
+
+  .probabilities { display: grid; gap: 6px; margin: 0 0 10px; padding: 0; list-style: none; }
+  .probabilities li {
+    display: grid;
+    grid-template-columns: minmax(0, 8rem) minmax(24px, 1fr) 2.3rem;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.8rem;
+  }
+  .probabilities li.is-picked { color: var(--accent); font-weight: 650; }
+  .candidate-label { overflow-wrap: anywhere; }
+  .probability-track { height: 6px; border-radius: 4px; background: var(--line); overflow: hidden; }
+  .probability-track span { display: block; height: 100%; border-radius: inherit; background: var(--accent); }
+  .no-probabilities { min-height: 96px; display: grid; place-items: center; text-align: center; }
+
+  .delivery-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.3fr); }
+  .client, .event-log { min-width: 0; padding: 14px; border-radius: 5px; }
+  .client { background: var(--panel); }
+  .client-output { font: 1.24rem/1.4 Georgia, serif; overflow-wrap: anywhere; }
+  .event-log { background: #253229; color: #eff4e9; }
+  .event-log .kicker, .event-log .caption { color: #d1ded1; }
+  .event-log .kicker { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 4px 8px; margin-bottom: 8px; }
+  .media-type { font-weight: 400; text-transform: none; letter-spacing: 0; }
+  .event-log pre { margin: 0; font: 0.76rem/1.4 var(--mono); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .metrics {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 12px;
+    padding-top: 14px;
+    margin: 14px 0 0;
+    border-top: 1px solid var(--line);
+  }
+  .metrics dt { font-size: 0.8rem; color: var(--muted); }
+  .metrics dd { margin: 3px 0 0; font: 0.94rem var(--mono); }
+  .trace-caption { padding-inline: 2px; }
+
+  @media (max-width: 760px) {
+    .workbench { grid-template-columns: 1fr; }
+    .model-readouts { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .phases button { flex-direction: column; align-items: flex-start; gap: 2px; }
+  }
+
+  @media (max-width: 580px) {
+    .narration, .model-readouts, .delivery-grid { grid-template-columns: 1fr; }
+    .step-why { border-inline-start: 0; border-top: 1px solid var(--line); padding: 10px 0 0; }
+    .route, .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .phases { gap: 4px; }
+    .phases button { align-items: center; padding-inline: 2px; font-size: 0.74rem; }
+    .playback-buttons { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 4px; width: 100%; }
+    .playback-buttons button { min-width: 0; padding-inline: 2px; font-size: 0.8rem; }
+    .playback-options select { min-height: 44px; }
+    .control-arrow { display: none; }
+    .model-flow li { padding-inline: 7px; }
+    summary { min-height: 44px; align-content: center; scroll-margin-top: 132px; }
+  }
+
+  @media (max-width: 390px) {
+    .model-flow { grid-template-columns: 1fr; }
+    .model-flow li { grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: center; }
+  }
+
+  @media (max-width: 360px) {
+    .phases { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  }
+
+  @media print {
+    .playback, .timeline progress { display: none; }
+    .panel { break-inside: avoid; }
+    .event-log, .event-log .kicker, .event-log .caption { background: #fff; color: #000; }
+  }
+</style>

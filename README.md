@@ -1,6 +1,6 @@
 # xiaonan.co
 
-A static personal site for Xiao Nan / Shawn, built with Astro, TypeScript, Tailwind 4, MDX, and Content Collections. Work and Projects intentionally start empty. Writing includes a featured external Agoda Engineering article on Medium; the local MDX demonstration remains unpublished.
+A static personal site for Xiao Nan / Shawn, built with Astro, TypeScript, Tailwind 4, MDX, and Content Collections. Projects includes a native LLM inference explainer. Writing includes a featured external Agoda Engineering article on Medium.
 
 ## Local development
 
@@ -37,11 +37,13 @@ If development already occupies port 4321, use `npm run preview -- --port 4322`.
 
 - `src/data/site.ts`: identity, positioning, navigation, interests, and profile links. GitHub, LinkedIn, and Medium are owner-confirmed public profiles; the shared list also supplies About and Person structured data.
 - `src/data/work.ts`: professional work. Keep curated array order; set `featured: true` for homepage selection (up to three).
-- `src/data/projects.ts`: independent projects and experiments, in curated order.
+- `src/data/projects.ts`: independent projects and interactive explainers, in curated order. Feature up to three on the homepage with `featured: true`.
 - `src/styles/global.css`: shared colors, typography, spacing, responsive rules, and article styles.
 - `src/layouts/BaseLayout.astro`: shared shell, metadata, canonical URLs, and optional Person structured data.
 
-Work and project entries require `id`, `title`, `summary`, `tags`, and `featured`. Both support an optional `url`. Work additionally supports `organization`, `role`, `period`, and `contribution`. Projects support `repository` and `demo`. IDs must be stable and unique within their array. Links should be valid destinations; omit absent links. There are no work or project detail routes in V1.
+Work and project entries require `id`, `title`, `summary`, `tags`, and `featured`. Both support an optional `url`. Work additionally supports `organization`, `role`, `period`, and `contribution`. Projects support `format`, `repository`, and `demo`. IDs must be stable and unique within their array. Links should be valid destinations. Omit absent links.
+
+Give interactive projects their own Astro route under `src/pages/projects/` and link to it from the project's `url`. The LLM inference explainer at `/projects/llm-inference/` uses the original simulation trace in `src/lib/inference.ts`. Use Writing for longer essays, with an external writing entry when an essay is published elsewhere.
 
 The theme control offers System, Light, and Dark. System follows the operating system through CSS, including changes while the page is open. Explicit preferences are applied before paint and saved in local storage. With blocked storage, the choice still applies for the current page. With JavaScript disabled, the site follows the system theme and hides the inactive control.
 

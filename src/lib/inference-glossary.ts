@@ -1,0 +1,16 @@
+export const glossary: Record<string, string> = {
+  Token: "A piece of text represented by one vocabulary ID. Its boundaries depend on the tokenizer.",
+  Embedding: "A learned vector representation looked up from a token ID before model computation.",
+  Prefill: "Processing the input sequence together to produce hidden states and initial attention cache entries.",
+  Decode: "Autoregressively processing a new token to predict the next one, reusing cached context.",
+  "KV Cache": "Stores previously computed attention key and value tensors across layers and heads for reuse during decoding.",
+  "Hidden state": "A contextual vector produced by Transformer layers for a sequence position.",
+  "LM Head": "A projection from the final hidden state to one logit per vocabulary token.",
+  Logits: "Unnormalized scores for possible next tokens, before a sampling rule is applied.",
+  Softmax: "A function that normalizes scores into probabilities. Sampling settings can transform the logits first.",
+  Sampling: "The procedure that chooses the next token using the configured score distribution.",
+  SSE: "Server-Sent Events carry text events from a server to a client over an open HTTP response.",
+  TTFT: "Time to first token measures the wait from sending a request to receiving its first output token.",
+  TPOT: "Time per output token here is the average time between delivered output tokens, after the first.",
+  "Inter-token latency": "The elapsed time between consecutive streamed output tokens, including model and transport time.",
+};
